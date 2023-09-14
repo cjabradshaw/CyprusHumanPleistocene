@@ -1,0 +1,14 @@
+ID	Genus	Species	AgeID	LabNo	stratum	material	DatedMaterial	DatedRemain	SF-FTIR	d13C	Age	Precision	PrecisionType	AgeType	Association	Association.sub.category	DatingTechnique	C14_Pretreatment	C14_CNRatioValue	C14_NPercentage
+1	Phanourios	minor	P867/AA87182	AA8B2	surface	calcined bone apatite	Apatite	Apatite	NA	-20.7	10485	57	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
+2	Phanourios	minor	P868/AA87183	AA14B1	2	calcined bone apatite	Apatite	Apatite	5.56	-24.4	10578	58	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
+3	Phanourios	minor	P869/AA87184	AA16B	2	calcined bone apatite	Apatite	Apatite	5.38	-25.2	10612	58	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
+4	Phanourios	minor	Muse154/SacA 28894	AA42B2	4a+b	calcined bone apatite	Apatite	Apatite	7.05	-23.8	10835	45	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
+5	Phanourios	minor	Muse152/SacA 28892	AA48B2	4a+b	calcined bone apatite	Apatite	Apatite	6.79	-26.8	10470	40	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
+6	Phanourios	minor	P935/AA88552	AA50B1	4a+b	calcined bone apatite	Apatite	Apatite	6.48	-23.6	10457	57	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
+7	Phanourios	minor	P870/AA87185	AA33B1	4b	calcined bone apatite	Apatite	Apatite	7.08	-22.8	10430	57	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
+8	Phanourios	minor	Beta-41002/ETH-7189	"N96E89, st 2a lower"		Charcoal	Charcoal	Charcoal	NA	NA	10770	90	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
+9	Phanourios	minor	Beta-41408/ETH-7332	"N96E89, st 2a"		Charcoal	Charcoal	Charcoal	NA	NA	10575	80	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
+10	Phanourios	minor	Beta-41406/ETH-7331	N97E88 st 2a		Charcoal	Charcoal	Charcoal	NA	NA	10485	80	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
+11	Phanourios	minor	Beta-41000/ETH7188	"N97E89, st 2a"		Charcoal	Charcoal	Charcoal	NA	NA	10420	85	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
+12	Phanourios	minor	OxA-15989	st2		Charcoal	Charcoal	Charcoal	NA	NA	10225	50	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
+13	Phanourios	minor	Beta-40382/ETH-7160	"N97E89, st 4c"		Charcoal	Charcoal	Charcoal	NA	NA	10560	90	1S	=	Direct	no	Radiocarbon	"ABA, AAA or acid wash"	0	0
