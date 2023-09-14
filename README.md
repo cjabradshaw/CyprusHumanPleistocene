@@ -4,7 +4,6 @@ Part of the MIGRATE (<strong>M</strong>odell<strong>i</strong>ng Demo<strong>gr<
 <br>
 <br>
 lead investigator: Dr <a href="https://ucy.academia.edu/TheodoraMoutsiou">Theodora Moutsiou</a><br>
-<br>
 key personnel: Dr Christian Reepmeyer, Associate Professor Stella Demesticha, Dr Vasiliki Kassianidou, Dr Athos Agapiou, Dr Zomenia Zomeni, Professor Corey Bradshaw
 <br>
 ## Project overview
