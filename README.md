@@ -2,6 +2,7 @@
 
 Part of the MIGRATE (<strong>M</strong>odell<strong>i</strong>ng Demo<strong>gr</strong>aphy and <strong>A</strong>daptation in the Initial Peopling of the Eastern M<strong>e</strong>diterranean Islandscape) project, under the auspices of the European Union Research and Innovation Foundation for REsearch, Technological Development and Innovation "Restart 2016-2020".
 <br>
+<br>
 lead investigator: Dr <a href="https://ucy.academia.edu/TheodoraMoutsiou">Theodora Moutsiou</a>
 key personnel: Dr Christian Reepmeyer, Associate Professor Stella Demesticha, Dr Vasiliki Kassianidou, Dr Athos Agapiou, Dr Zomenia Zomeni, Professor Corey Bradshaw
 <br>
