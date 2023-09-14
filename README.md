@@ -12,7 +12,7 @@ Part of the MIGRATE (<strong>M</strong>odell<strong>i</strong>ng Demo<strong>gr<
 Project MIGRATE seeks to offer novel insights into population dynamics and range shifts that resulted in dispersals from the Eastern Mediterranean mainland to the island of Cyprus at a critical period (Late Pleistocene, 45-12 ka) through stochastic spatial modelling. This advanced modelling will  enhance our understanding of timing, and climatic and social factors important in the initial colonisation of Cyprus. The proposed project aims to establish new research domains in the field of Cypriot archaeology extending traditional chronological frontiers beyond the Holocene (current Warm Period), encompassing innovative and interdisciplinary methodologies at the forefront of archaeological research.
 
 ## Scripts
-R code by Corey Bradshaw (@cjabradshaw) and Frédérik Saltré (@fredsaltre)
+R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</a>) and Frédérik Saltré (<a href="http://github.com/fredsaltre">@fredsaltre</a>)
 
 ### Climate hindcasts
 - <code>HadCM3outputs.R</code>
