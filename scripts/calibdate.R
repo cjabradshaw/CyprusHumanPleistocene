@@ -1,5 +1,14 @@
+#######################################################################
+## calibrate oldest human archaeological evidence for Cyprus,
+## and use Signor-Lipps correction to estimate window of first entry
+## Corey Bradshaw
+## September 2023
+#######################################################################
+
 library(rcarbon)
 library(stringr)
+#devtools::install_github("FredSaltre/CRIWM/Rextinct")
+library(Rexinct)
 
 # date calibrations
 singDate.mn <- 11720
@@ -18,8 +27,6 @@ calib.dateL <- as.numeric(str_split(summ.calib.date$TwoSigma_BP_1, " to ", simpl
 calib.dateL
 
 ## CRIWM
-library(Rexinct)
-
 ## all Cyprus dates
 setwd("~/Documents/Papers/Palaeo/Cyprus/data")
 cyp.ages <- read.table("cyprusages.csv", sep=",", header=T)
