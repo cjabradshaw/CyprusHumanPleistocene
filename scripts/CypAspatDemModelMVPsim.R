@@ -23,7 +23,7 @@ library(spatialEco)
 library(SpatialPack)
 
 ## source
-source("~/Documents/Papers/Other/Global human population/ms/PNAS/R1/matrixOperators.r")
+source("~/scripts/SourceFunctions/matrixOperators.r")
 
 ## functions
 # stochastic beta sampler (single sample)
@@ -88,7 +88,7 @@ coordlist2xyz <- function (list) {
 
 ## NPP (HadCM3)
 setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
-nppH <- read.table("CyprusRegion(20ka)_NPP(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
+nppH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_NPP(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 not.naH <- which(is.na(nppH[,3:dim(nppH)[2]]) == F, arr.ind=T)
 upper.rowH <- as.numeric(not.naH[1,1])
 lower.rowH <- as.numeric(not.naH[dim(not.naH)[1],1])
@@ -155,8 +155,6 @@ image(nppHcyp.entry, col=rev(grey(1:100/100)))
 image(nppH.entry, col=rev(grey(1:100/100)))
 
 plot(nppH.entry)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
-#writeRaster(nppH.entry, filename="nppHentry.grd", format="raster")
 
 # transform to array
 lzH <- dim(nppH.cyp)[2] - 2
@@ -195,8 +193,7 @@ lines(t1000Hvec, cyp.nppH.up, lty=2, col="red")
 
 ## estimated sea level and change in area of Cyprus
 ## Global ESL reconstruction - Lambeck et al. (2014) https://doi.org/10.1073/pnas.1411762111
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/")
-globESL <- read.table("lambeckESL.csv", sep=",", header=T)
+globESL <- read.table("~/data/seaLevel/lambeckESL.csv", sep=",", header=T)
 head(globESL)
 tail(globESL)
 
@@ -225,13 +222,11 @@ lines(esl1yr.dat$age, esl1yr.dat$esl.mn-esl1yr.dat$esl.sd, lty=2, col="red")
 esl1yr20ka.dat <- esl1yr.dat[esl1yr.dat$age <= 20000,]
 tail(esl1yr20ka.dat)
 
-setwd("/Users/brad0317/Documents/Papers/Palaeo/Cyprus/out")
 write.table(esl1yr20ka.dat, "esl1yr20ka.csv", sep=",", row.names = F)
 
 
 ## GEBCO 2022 sea level vs. area of Cyprus
-setwd("/Users/brad0317/Documents/Papers/Palaeo/Cyprus/data")
-cypAesl <- read.table("cypareaSL.csv", sep=",", header=T)
+cypAesl <- read.table("~/data/seaLevel/cypareaSL.csv", sep=",", header=T)
 head(cypAesl)
 plot(cypAesl$esl, cypAesl$cyp.area, type="l", xlab="esl (m)", ylab="area of Cyprus (km2)")
 
@@ -260,7 +255,6 @@ plot(areaT.dat$age, areaT.dat$areaC.mn, type="l", xlab="age", ylab="area of Cypr
 lines(areaT.dat$age, areaT.dat$areaC.mn+areaT.dat$areaC.sd, lty=2, col="red")
 lines(areaT.dat$age, areaT.dat$areaC.mn-areaT.dat$areaC.sd, lty=2, col="red")
 
-setwd("/Users/brad0317/Documents/Papers/Palaeo/Cyprus/out")
 write.table(areaT.dat, "areaT.csv", sep=",", row.names = F)
 
 par(mfrow=c(1,3))
@@ -274,11 +268,6 @@ plot(areaT.dat$age, areaT.dat$areaC.mn, type="l", xlab="age", ylab="area of Cypr
 lines(areaT.dat$age, areaT.dat$areaC.mn+areaT.dat$areaC.sd, lty=2, col="red")
 lines(areaT.dat$age, areaT.dat$areaC.mn-areaT.dat$areaC.sd, lty=2, col="red")
 par(mfrow=c(1,1))
-
-## alternative sl series
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/")
-slt <- read.table("sltimeseries.csv", sep=",", header=T)
-head(slt)
 
 plot(areaT.dat$age, areaT.dat$areaC.mn, type="l", xlab="age", ylab="area of Cyprus (km2)")
 lines(areaT.dat$age, areaT.dat$areaC.mn+areaT.dat$areaC.sd, lty=2, col="red")
@@ -437,8 +426,7 @@ prim.mean <- round(mean(primiparity.walker),0)
 prim.lo <- round(quantile(primiparity.walker,probs=0.025),0)
 prim.hi <- round(quantile(primiparity.walker,probs=0.975),0)
 print(c(prim.lo, prim.mean, prim.hi))
-setwd("~/Documents/Papers/Other/Global human population/data/import data/")
-dat.world13 <- read.table("world2013lifetable.csv", header=T, sep=",")
+dat.world13 <- read.table("~/data/demography/world2013lifetable.csv", header=T, sep=",")
 fert.world13 <- dat.world13$m.f
 fert.trunc <- fert.world13[1:(longev+1)]
 pfert.trunc <- fert.trunc/sum(fert.trunc)
@@ -612,7 +600,6 @@ plot(yr.vec.run, (n.mn), type="l", xlab="ka", ylab="N", ylim=c((min(n.lo)),(max(
 lines(yr.vec.run, (n.lo), lty=2, col="red")
 lines(yr.vec.run, (n.up), lty=2, col="red")
 
-setwd("/Users/brad0317/Documents/Papers/Palaeo/Cyprus/out")
 Nproj.out <- data.frame(yr.vec.run, n.mn, n.up, n.lo)
 write.table(Nproj.out, "Nproj.csv", row.names = F, sep=",")
 
@@ -702,5 +689,4 @@ for (f in 1:length(found.vec)) {
 plot(found.vec, pr.ext.vec, type="l", lty=2, col="red", xlab="founding N", ylab="Pr(Qext)")
 
 foundN.ext <- data.frame(found.vec, pr.ext.vec)
-setwd("/Users/brad0317/Documents/Papers/Palaeo/Cyprus/out")
 write.table(foundN.ext, "foundNext.csv", sep=",", row.names = F)
