@@ -28,6 +28,11 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 ### Palaeontology
 - <code>dwarf hippo & elephant.R</code>: using dated fossil specimens of dwarf elephant <em>Elaphas</em> (<em>Palaeoloxodon</em>) <em>cypriotes</em> and dwarf hippopotamus <em>Phanourios minor</em> from Cyprus, estimate Signor-Lipps corrected window of extinction
 
+### Source functions
+- <code>matrixOperators.r</code>: functions for manipulating matrices for population projections
+- <code>qualityRating.R</code>: functions for estimating quality (reliability) of age estimates
+- <code>EndRating.R</code>: functions for estimating quality (reliability) of age estimates
+
 ## Data
 ### Climate hindcasts
 - <em>CyprusRegion(20ka)_NPP(absolutevalues).csv</em>: hindcasted HadCM3 net primary production (absolute values) from 20 ka to present for the general eastern Mediterranean region
