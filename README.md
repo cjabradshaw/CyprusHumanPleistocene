@@ -41,6 +41,9 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 - <em>cypareaSL.csv</em>: relationship between relative sea level (from the present) and area of the island of Cyprus derived from <a href="http://www.gebco.net">GEBCO</a>
 - <em>lambeckESL.csv</em>: global sea level curve from <a href="https://doi.org/10.1073/pnas.1411762111">Lambeck et al. (2014)</a>
 
+### Archaeological dates
+- <em>archdates.csv</em>: oldest radiocarbon dates from 10 sites around Cyprus (data from <a href="https://doi.org/10.5281/zenodo.5767862">Near East Radiocarbon Dates (NERD)</a>, <a href="https://doi.org/10.5334/joad.90">Palmisano et al. 2022</a>)
+
 ### Demography
 - <em>world2013lifetable.csv</em>: human demographic data for age-structure determination (see <a href="http://doi.org/10.1038/s41559-019-0902-6">Bradshaw et al. 2019</a>)
 
