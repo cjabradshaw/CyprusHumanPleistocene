@@ -8,15 +8,13 @@ library(dplyr)
 #devtools::install_github("FredSaltre/CRIWM/Rextinct")
 library(Rexinct)
 
-setwd("/Users/brad0317/Documents/Papers/Palaeo/Cyprus/data/palaeo")
-
 # source functions
-source("qualityRating.R")
-source("EndRating.R")
+source("~/scripts/SourceFunctions/qualityRating.R")
+source("~/scripts/SourceFunctions/EndRating.R")
 
 
 ## dwarf hippo Phanourios minor
-phanourios <- read.table("phanourios.txt", header = T, sep="\t")
+phanourios <- read.table("~/scripts/phanourios.txt", header = T, sep="\t")
 phanourios[is.na(phanourios)] <- 'na' #replaces all the missing data with "na"to avoid TRUE/FALSE errors
 phanourios$C14_CNRatioValue <-as.numeric(as.character(phanourios$C14_CNRatioValue)) #makes CNRatioValue numeric
 phanourios$C14_CNRatioValue[is.na(phanourios$C14_CNRatioValue)] <- '0' #replaces missing data for CNRatioValue with 0
@@ -47,7 +45,7 @@ criwm(chrono_data = "phanouriosTS.txt", signor_lipps = "ext", biased=F, radiocar
 
 
 # dwarf elephant Elaphus cypriotes
-elaphas <- read.table("elaphas.txt", header = T, sep="\t")
+elaphas <- read.table("~/scripts/elaphas.txt", header = T, sep="\t")
 elaphas[is.na(elaphas)] <- 'na' #replaces all the missing data with "na"to avoid TRUE/FALSE errors
 elaphas$C14_CNRatioValue <-as.numeric(as.character(elaphas$C14_CNRatioValue)) #makes CNRatioValue numeric
 elaphas$C14_CNRatioValue[is.na(elaphas$C14_CNRatioValue)] <- '0' #replaces missing data for CNRatioValue with 0
