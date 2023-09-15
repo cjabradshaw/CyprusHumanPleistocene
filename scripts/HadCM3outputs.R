@@ -49,10 +49,8 @@ coordlist2xyz <- function (list) {
 ## set grids
 ####################################################
 
-
 ## NPP (HadCM3)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
-nppH <- read.table("CyprusRegion(20ka)_NPP(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
+nppH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_NPP(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 not.naH <- which(is.na(nppH[,3:dim(nppH)[2]]) == F, arr.ind=T)
 upper.rowH <- as.numeric(not.naH[1,1])
 lower.rowH <- as.numeric(not.naH[dim(not.naH)[1],1])
@@ -119,7 +117,6 @@ image(nppHcyp.entry, col=rev(grey(1:100/100)))
 image(nppH.entry, col=rev(grey(1:100/100)))
 
 plot(nppH.entry)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
 writeRaster(nppH.entry, filename="nppHentry.grd", format="raster")
 
 # transform to array
@@ -158,8 +155,7 @@ lines(t1000Hvec, cyp.nppH.up, lty=2, col="red")
 
 
 ## NPP anomaly (HadCM3)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
-nppanomH <- read.table("CyprusRegion(20ka)_NPP(anomaliesvalues).csv", header=T, sep=",") # 0.5 deg lat resolution
+nppanomH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_NPP(anomaliesvalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 
 as.numeric(attr(table(nppanomH$Lat), "names")) # lats
 as.numeric(attr(table(nppanomH$Lon), "names")) # lons
@@ -202,7 +198,6 @@ image(nppanomHcyp.entry, col=rev(grey(1:100/100)))
 image(nppanomH.entry, col=rev(grey(1:100/100)))
 
 plot(nppanomH.entry)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
 writeRaster(nppanomH.entry, filename="nppanomHentry.grd", format="raster", overwrite=T)
 
 # transform to array
@@ -241,8 +236,7 @@ lines(t1000Hvec, cyp.nppanomH.up, lty=2, col="brown")
 
 
 ## TEMPERATURE (HadCM3)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
-tempH <- read.table("CyprusRegion(20ka)_AnnualMeanTemperature(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
+tempH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_AnnualMeanTemperature(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 
 as.numeric(attr(table(tempH$Lat), "names")) # lats
 as.numeric(attr(table(tempH$Lon), "names")) # lons
@@ -285,7 +279,6 @@ image(tempHcyp.entry, col=colorRamps::blue2red(20))
 image(tempH.entry, col=colorRamps::blue2red(20))
 
 plot(tempH.entry)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
 writeRaster(tempH.entry, filename="tempHentry.grd", format="raster", overwrite=T)
 
 # transform to array
@@ -324,8 +317,7 @@ lines(t1000Hvec, cyp.tempH.up, lty=2, col="red")
 
 
 ## TEMPERATURE anomaly (HadCM3)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
-tempanomH <- read.table("CyprusRegion(20ka)_AnnualMeanTemperature(anomaliesvalues).csv", header=T, sep=",") # 0.5 deg lat resolution
+tempanomH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_AnnualMeanTemperature(anomaliesvalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 
 as.numeric(attr(table(tempanomH$Lat), "names")) # lats
 as.numeric(attr(table(tempanomH$Lon), "names")) # lons
@@ -368,7 +360,6 @@ image(tempanomHcyp.entry, col=colorRamps::blue2red(20))
 image(tempanomH.entry, col=colorRamps::blue2red(20))
 
 plot(tempanomH.entry)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
 writeRaster(tempanomH.entry, filename="tempanomHentry.grd", format="raster", overwrite=T)
 
 # transform to array
@@ -407,8 +398,7 @@ lines(t1000Hvec, cyp.tempanomH.up, lty=2, col="red")
 
 
 ## PRECIPITATION  (HadCM3)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
-prcpH <- read.table("CyprusRegion(20ka)_AnnualPrecipitation(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
+prcpH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_AnnualPrecipitation(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 
 as.numeric(attr(table(prcpH$Lat), "names")) # lats
 as.numeric(attr(table(prcpH$Lon), "names")) # lons
@@ -451,7 +441,6 @@ image(prcpHcyp.entry, col=rev(grDevices::blues9))
 image(prcpH.entry, col=rev(grDevices::blues9))
 
 plot(prcpH.entry)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
 writeRaster(prcpH.entry, filename="prcpHentry.grd", format="raster", overwrite=T)
 
 # transform to array
@@ -490,8 +479,7 @@ lines(t1000Hvec, cyp.prcpH.up, lty=2, col="blue")
 
 
 ## PRECIPITATION anomaly (HadCM3)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
-prcpanomH <- read.table("CyprusRegion(20ka)_AnnualPrecipitation(anomaliesvalues).csv", header=T, sep=",") # 0.5 deg lat resolution
+prcpanomH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_AnnualPrecipitation(anomaliesvalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 
 as.numeric(attr(table(prcpanomH$Lat), "names")) # lats
 as.numeric(attr(table(prcpanomH$Lon), "names")) # lons
@@ -534,7 +522,6 @@ image(prcpanomHcyp.entry, col=rev(grDevices::blues9))
 image(prcpanomH.entry, col=rev(grDevices::blues9))
 
 plot(prcpanomH.entry)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
 writeRaster(prcpanomH.entry, filename="prcpanomHentry.grd", format="raster", overwrite=T)
 
 # transform to array
