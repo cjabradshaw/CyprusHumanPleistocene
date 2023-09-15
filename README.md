@@ -26,7 +26,7 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 - <code>CypAspatDemModelStaggeredEntry.R</code>: vary frequency and intervals of arrival of different group sizes (up to minimum viable population size calculated above) to determine minimum size of entering groups and frequency of immigration required to minimise quasi-extinction
 
 ### Palaeontology
-- <code>dwarf hippo & elephant.R</code>: using dated fossil specimens of dwarf elephant <em>Elaphus cypriotes</em> and dwarf hippopotamus <em>Phanourios minor</em> from Cyprus, estimate Signor-Lipps corrected window of extinction
+- <code>dwarf hippo & elephant.R</code>: using dated fossil specimens of dwarf elephant <em>Elaphas</em> (<em>Palaeoloxodon</em>) <em>cypriotes</em> and dwarf hippopotamus <em>Phanourios minor</em> from Cyprus, estimate Signor-Lipps corrected window of extinction
 
 ## Data
 ### Climate hindcasts
@@ -48,7 +48,7 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 - <em>world2013lifetable.csv</em>: human demographic data for age-structure determination (see <a href="http://doi.org/10.1038/s41559-019-0902-6">Bradshaw et al. 2019</a>)
 
 ### Palaeontology
-- <em>elaphus.txt</em>: radiocarbon dates for the dwarf elephant <em>Elaphus cypriotes</em> from Wigand & Simmons (1999) In: Simmons (ed.) <a href="https://link.springer.com/book/10.1007/b109876"><em>Faunal Extinction in an Island Society</em></a>
+- <em>elaphas.txt</em>: radiocarbon dates for the dwarf elephant <em>Elaphas</em> (<em>Palaeoloxodon</em>) <em>cypriotes</em> from Wigand & Simmons (1999) In: Simmons (ed.) <a href="https://link.springer.com/book/10.1007/b109876"><em>Faunal Extinction in an Island Society</em></a>
 - <em>phanourios.txt</em>: radiocarbon dates for the dwarf hippopotamus <em>Phanourios minor</em> from <a href="http://doi.org/10.1371/journal.pone.0134429">Zazzo et al. (2015)</a>
 
 <p><a href="https://www.ucy.ac.cy"><img align="bottom-left" src="www/UCypruslogo.png" alt="UCyprus logo" height="45" style="margin-top: 20px"></a> &nbsp; <a href="http://www.dainst.org"><img align="bottom-left" src="www/DAIlogo.png" alt="DAI logo" height="55" style="margin-top: 20px"></a> &nbsp; &nbsp; <a href="https://www.flinders.edu.au"><img align="bottom-left" src="www/Flinders_University_Logo_Horizontal_RGB_Master.png" alt="Flinders University logo" height="35" style="margin-top: 20px"></a> &nbsp; <a href="https://globalecologyflinders.com"><img align="bottom-left" src="www/GEL Logo Kaurna New Transp.png" alt="GEL logo" height="55" style="margin-top: 20px"></a> &nbsp; &nbsp; <a href="https://EpicAustralia.org.au"><img align="bottom-left" src="www/CabahFCL.jpg" alt="CABAH logo" height="45" style="margin-top: 20px"></a> &nbsp; <a href="https://www.cut.ac.cy"><img align="bottom-left" src="www/CUTlogoblack.png" alt="CUT logo" height="50" style="margin-top: 20px"></a> &nbsp; <a href="https://www.moa.gov.cy/moa/gsd/gsd.nsf/dmlIndex_en/dmlIndex_en"><img align="bottom-left" src="www/CGSlogo.png" alt="CGS logo" height="45" style="margin-top: 20px"></a></p>
