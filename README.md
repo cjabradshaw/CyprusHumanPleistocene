@@ -15,34 +15,34 @@ Project MIGRATE seeks to offer novel insights into population dynamics and range
 R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</a>) and Frédérik Saltré (<a href="http://github.com/fredsaltre">@fredsaltre</a>)
 
 ### Climate hindcasts
-- <code>HadCM3outputs.R</code>
+- <code>HadCM3outputs.R</code>: net primary production (kg C m<sup>-2</sup> year<sup>-1</sup>), temperature (° C), and precipitation (mm year<sup>-1) data (raw and anomalies relative to the present) hindcasted from the <a href="https://www.metoffice.gov.uk/research/approach/modelling-systems/unified-model/climate-models/hadcm3">Hadley Centre Coupled Model version 3</a> (HadCM3) climate model for the 0.5° × 0.5° lat/lon cells covering Cyprus from 20 ka to the present
 
 ### Chronology
-- <code>calibdate.R</code>
+- <code>calibdate.R</code>: calibrate oldest human archaeological evidence for Cyprus, and use Signor-Lipps correction to estimate window of first entry
 
 ### Demography
-- <code>CypAspatDemModel.R</code>
-- <code>CypAspatDemModelMVPsim.R</code>
-- <code>CypAspatDemModelStaggeredEntry.R</code>
+- <code>CypAspatDemModel.R</code>: stochastic, age-structured human demographic projection model
+- <code>CypAspatDemModelMVPsim.R</code>: based on model above, vary founding population size to estimate change in probability of quasi-extinction
+- <code>CypAspatDemModelStaggeredEntry.R</code>: vary frequency and intervals of arrival of different group sizes (up to minimum viable population size calculated above) to determine minimum size of entering groups and frequency of immigration required to minimise quasi-extinction
 
 ### Palaeontology
-- <code>dwarf hippo & elephant.R</code>
+- <code>dwarf hippo & elephant.R</code>: using dated fossil specimens of dwarf elephant <em>Elaphus cypriotes</em> and dwarf hippopotamus <em>Phanourios minor</em> from Cyprus, estimate Signor-Lipps corrected window of extinction
 
 ## Data
 ### Climate hindcasts
-- CyprusRegion(20ka)_NPP(absolutevalues).csv
-- CyprusRegion(20ka)_NPP(anomaliesvalues).csv
-- CyprusRegion(20ka)_AnnualMeanTemperature(absolutevalues).csv
-- CyprusRegion(20ka)_AnnualMeanTemperature(anomaliesvalues).csv
-- CyprusRegion(20ka)_AnnualPrecipitation(absolutevalues).csv
-- CyprusRegion(20ka)_AnnualPrecipitation(anomaliesvalues).csv
+- CyprusRegion(20ka)_NPP(absolutevalues).csv: hindcasted HadCM3 net primary production (absolute values) from 20 ka to present for the general eastern Mediterranean region
+- CyprusRegion(20ka)_NPP(anomaliesvalues).csv: hindcasted HadCM3 net primary production (anomalies relative to the present) from 20 ka to present for the general eastern Mediterranean region
+- CyprusRegion(20ka)_AnnualMeanTemperature(absolutevalues).csv: hindcasted HadCM3 temperature (absolute values) from 20 ka to present for the general eastern Mediterranean region
+- CyprusRegion(20ka)_AnnualMeanTemperature(anomaliesvalues).csv: hindcasted HadCM3 temperature (anomalies relative to the present) from 20 ka to present for the general eastern Mediterranean region
+- CyprusRegion(20ka)_AnnualPrecipitation(absolutevalues).csv: hindcasted HadCM3 annual precipitation (absolute values) from 20 ka to present for the general eastern Mediterranean region
+- CyprusRegion(20ka)_AnnualPrecipitation(anomaliesvalues).csv: hindcasted HadCM3 annual precipitation (anomalies relative to the present) from 20 ka to present for the general eastern Mediterranean region
   
 ### Sea level
-- cypareaSL.csv
-- lambeckESL.csv
+- cypareaSL.csv: relationship between relative sea level (from the present) and area of the island of Cyprus derived from <a href="http://www.gebco.net">GEBCO</a>
+- lambeckESL.csv: global sea level curve from <a href="https://doi.org/10.1073/pnas.1411762111">Lambeck et al. (2014)</a>
 
 ### Demography
-- world2013lifetable.csv
+- world2013lifetable.csv: human demographic data for age-structure determination (see <a href="http://doi.org/10.1038/s41559-019-0902-6">Bradshaw et al. 2019</a>)
 
 ### Palaeontology
 - elaphus.txt: radiocarbon dates for the dwarf elephant <em>Elaphus cypriotes</em> from Wigand & Simmons (1999) In: Simmons (ed.) <a href="https://link.springer.com/book/10.1007/b109876"><em>Faunal Extinction in an Island Society</em></a>
