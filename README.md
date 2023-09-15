@@ -30,22 +30,22 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 
 ## Data
 ### Climate hindcasts
-- CyprusRegion(20ka)_NPP(absolutevalues).csv: hindcasted HadCM3 net primary production (absolute values) from 20 ka to present for the general eastern Mediterranean region
-- CyprusRegion(20ka)_NPP(anomaliesvalues).csv: hindcasted HadCM3 net primary production (anomalies relative to the present) from 20 ka to present for the general eastern Mediterranean region
-- CyprusRegion(20ka)_AnnualMeanTemperature(absolutevalues).csv: hindcasted HadCM3 temperature (absolute values) from 20 ka to present for the general eastern Mediterranean region
-- CyprusRegion(20ka)_AnnualMeanTemperature(anomaliesvalues).csv: hindcasted HadCM3 temperature (anomalies relative to the present) from 20 ka to present for the general eastern Mediterranean region
-- CyprusRegion(20ka)_AnnualPrecipitation(absolutevalues).csv: hindcasted HadCM3 annual precipitation (absolute values) from 20 ka to present for the general eastern Mediterranean region
-- CyprusRegion(20ka)_AnnualPrecipitation(anomaliesvalues).csv: hindcasted HadCM3 annual precipitation (anomalies relative to the present) from 20 ka to present for the general eastern Mediterranean region
+- <em>CyprusRegion(20ka)_NPP(absolutevalues).csv</em>: hindcasted HadCM3 net primary production (absolute values) from 20 ka to present for the general eastern Mediterranean region
+- <em>CyprusRegion(20ka)_NPP(anomaliesvalues).csv</em>: hindcasted HadCM3 net primary production (anomalies relative to the present) from 20 ka to present for the general eastern Mediterranean region
+- <em>CyprusRegion(20ka)_AnnualMeanTemperature(absolutevalues).csv</em>: hindcasted HadCM3 temperature (absolute values) from 20 ka to present for the general eastern Mediterranean region
+- <em>CyprusRegion(20ka)_AnnualMeanTemperature(anomaliesvalues).csv</em>: hindcasted HadCM3 temperature (anomalies relative to the present) from 20 ka to present for the general eastern Mediterranean region
+- <em>CyprusRegion(20ka)_AnnualPrecipitation(absolutevalues).csv</em>: hindcasted HadCM3 annual precipitation (absolute values) from 20 ka to present for the general eastern Mediterranean region
+- <em>CyprusRegion(20ka)_AnnualPrecipitation(anomaliesvalues).csv</em>: hindcasted HadCM3 annual precipitation (anomalies relative to the present) from 20 ka to present for the general eastern Mediterranean region
   
 ### Sea level
-- cypareaSL.csv: relationship between relative sea level (from the present) and area of the island of Cyprus derived from <a href="http://www.gebco.net">GEBCO</a>
-- lambeckESL.csv: global sea level curve from <a href="https://doi.org/10.1073/pnas.1411762111">Lambeck et al. (2014)</a>
+- <em>cypareaSL.csv</em>: relationship between relative sea level (from the present) and area of the island of Cyprus derived from <a href="http://www.gebco.net">GEBCO</a>
+- <em>lambeckESL.csv</em>: global sea level curve from <a href="https://doi.org/10.1073/pnas.1411762111">Lambeck et al. (2014)</a>
 
 ### Demography
-- world2013lifetable.csv: human demographic data for age-structure determination (see <a href="http://doi.org/10.1038/s41559-019-0902-6">Bradshaw et al. 2019</a>)
+- <em>world2013lifetable.csv</em>: human demographic data for age-structure determination (see <a href="http://doi.org/10.1038/s41559-019-0902-6">Bradshaw et al. 2019</a>)
 
 ### Palaeontology
-- elaphus.txt: radiocarbon dates for the dwarf elephant <em>Elaphus cypriotes</em> from Wigand & Simmons (1999) In: Simmons (ed.) <a href="https://link.springer.com/book/10.1007/b109876"><em>Faunal Extinction in an Island Society</em></a>
-- phanourios.txt: radiocarbon dates for the dwarf hippopotamus <em>Phanourios minor</em> from <a href="http://doi.org/10.1371/journal.pone.0134429">Zazzo et al. (2015)</a>
+- <em>elaphus.txt</em>: radiocarbon dates for the dwarf elephant <em>Elaphus cypriotes</em> from Wigand & Simmons (1999) In: Simmons (ed.) <a href="https://link.springer.com/book/10.1007/b109876"><em>Faunal Extinction in an Island Society</em></a>
+- <em>phanourios.txt</em>: radiocarbon dates for the dwarf hippopotamus <em>Phanourios minor</em> from <a href="http://doi.org/10.1371/journal.pone.0134429">Zazzo et al. (2015)</a>
 
 <p><a href="https://www.ucy.ac.cy"><img align="bottom-left" src="www/UCypruslogo.png" alt="UCyprus logo" height="50" style="margin-top: 20px"></a> &nbsp; <a href="http://www.dainst.org"><img align="bottom-left" src="www/DAIlogo.png" alt="DAI logo" height="60" style="margin-top: 20px"></a> &nbsp; &nbsp; <a href="https://www.flinders.edu.au"><img align="bottom-left" src="www/Flinders_University_Logo_Horizontal_RGB_Master.png" alt="Flinders University logo" height="40" style="margin-top: 20px"></a> &nbsp; <a href="https://globalecologyflinders.com"><img align="bottom-left" src="www/GEL Logo Kaurna New Transp.png" alt="GEL logo" width="60" style="margin-top: 20px"></a> &nbsp; &nbsp; <a href="https://EpicAustralia.org.au"><img align="bottom-left" src="www/CabahFCL.jpg" alt="CABAH logo" height="50" style="margin-top: 20px"></a> &nbsp; <a href="https://www.cut.ac.cy"><img align="bottom-left" src="www/CUTlogoblack.png" alt="CUT logo" height="50" style="margin-top: 20px"></a></p>
