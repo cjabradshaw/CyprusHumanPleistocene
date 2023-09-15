@@ -11,6 +11,7 @@ library(stringr)
 library(Rexinct)
 
 # date calibrations
+# single date
 singDate.mn <- 11720
 singDate.er <- 240
 ID <- "Beta-40380"
@@ -28,8 +29,7 @@ calib.dateL
 
 ## CRIWM
 ## all Cyprus dates
-setwd("~/Documents/Papers/Palaeo/Cyprus/data")
-cyp.ages <- read.table("cyprusages.csv", sep=",", header=T)
+cyp.ages <- read.table("~/data/archdates/cyprusages.csv", sep=",", header=T)
 cypTS <- data.frame(cyp.ages$age, cyp.ages$err)
 
 # save time series to working directory
