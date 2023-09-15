@@ -26,7 +26,7 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 - <code>CypAspatDemModelStaggeredEntry.R</code>: vary frequency and intervals of arrival of different group sizes (up to minimum viable population size calculated above) to determine minimum size of entering groups and frequency of immigration required to minimise quasi-extinction
 
 ### Palaeontology
-- <code>dwarf hippo & elephant.R</code>: using dated fossil specimens of <a href="https://www.mindat.org/taxon-8626575.html">dwarf elephant</a> <em>Elaphas</em> (<em>Palaeoloxodon</em>) <em>cypriotes</em> and <a href="https://prehistoric-fauna.com/Hippopotamus-minor">dwarf</a> hippopotamus <em>Phanourios minor</em> from Cyprus, estimate Signor-Lipps corrected window of extinction
+- <code>dwarf hippo & elephant.R</code>: using dated fossil specimens of <a href="https://www.mindat.org/taxon-8626575.html">dwarf elephant</a> <em>Elaphas</em> (<em>Palaeoloxodon</em>) <em>cypriotes</em> and <a href="https://prehistoric-fauna.com/Hippopotamus-minor">dwarf hippopotamus</a> <em>Phanourios minor</em> from Cyprus, estimate Signor-Lipps corrected window of extinction
 
 ### Source functions
 - <code>matrixOperators.r</code>: functions for manipulating matrices for population projections
