@@ -26,7 +26,7 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 - <code>CypAspatDemModelStaggeredEntry.R</code>
 
 ### Palaeontology
-- <code>pygmy hippo & elephant.R</code>
+- <code>dwarf hippo & elephant.R</code>
 
 ## Data
 ### Climate hindcasts
