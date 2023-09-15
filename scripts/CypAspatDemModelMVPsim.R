@@ -269,11 +269,6 @@ lines(areaT.dat$age, areaT.dat$areaC.mn+areaT.dat$areaC.sd, lty=2, col="red")
 lines(areaT.dat$age, areaT.dat$areaC.mn-areaT.dat$areaC.sd, lty=2, col="red")
 par(mfrow=c(1,1))
 
-plot(areaT.dat$age, areaT.dat$areaC.mn, type="l", xlab="age", ylab="area of Cyprus (km2)")
-lines(areaT.dat$age, areaT.dat$areaC.mn+areaT.dat$areaC.sd, lty=2, col="red")
-lines(areaT.dat$age, areaT.dat$areaC.mn-areaT.dat$areaC.sd, lty=2, col="red")
-lines(slt$age, slt$area, lwd=2, lty=2, col="blue")
-
 ## relative density, carrying capacity
 # npp to K
 hum.dens.med <- 6.022271e-02
