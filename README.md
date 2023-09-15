@@ -15,7 +15,7 @@ Project MIGRATE seeks to offer novel insights into population dynamics and range
 R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</a>) and Frédérik Saltré (<a href="http://github.com/fredsaltre">@fredsaltre</a>)
 
 ### Climate hindcasts
-- <code>HadCM3outputs.R</code>: net primary production (kg C m<sup>-2</sup> year<sup>-1</sup>), temperature (° C), and precipitation (mm year<sup>-1) data (raw and anomalies relative to the present) hindcasted from the <a href="https://www.metoffice.gov.uk/research/approach/modelling-systems/unified-model/climate-models/hadcm3">Hadley Centre Coupled Model version 3</a> (HadCM3) climate model for the 0.5° × 0.5° lat/lon cells covering Cyprus from 20 ka to the present
+- <code>HadCM3outputs.R</code>: net primary production (kg C m<sup>-2</sup> year<sup>-1</sup>), temperature (°C), and precipitation (mm year<sup>-1</sup>) data (raw and anomalies relative to the present) hindcasted from the <a href="https://www.metoffice.gov.uk/research/approach/modelling-systems/unified-model/climate-models/hadcm3">Hadley Centre Coupled Model version 3</a> (HadCM3) climate model for the 0.5° × 0.5° lat/lon cells covering Cyprus from 20 ka to the present
 
 ### Chronology
 - <code>calibdate.R</code>: calibrate oldest human archaeological evidence for Cyprus, and use Signor-Lipps correction to estimate window of first entry
