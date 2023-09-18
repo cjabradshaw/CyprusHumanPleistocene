@@ -609,7 +609,7 @@ yr.en <- yr.st - round(gen.proj*gen.l, 0) # set projection end date
 #************************
 t <- (yr.st - yr.en)
 
-propSamp.vec <- seq(0.04, 0.4, 0.02)
+propSamp.vec <- seq(0.04, 0.5, 0.02)
 propSamp.varProp <- 0.05
 min.int <- 5 # years
 max.int <- 50 # years
