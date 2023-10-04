@@ -1,23 +1,24 @@
-## estimation des dates d'arrivee par solow;
-## principe = faire une vraisemblance ponderee, les ponderations dependant
-## de la distance entre point d'interet et observations.
-## sa base est exponentielle, le param regle par calculs biais/variance
-## et minimisation de l'imse par double noyau
+## Estimating arrival dates following Solow method;
+## principal = estimate a weighted likelihood, with weights depending
+## on the distance between the focal point and the observations.
+## The basic form is exponential, with the parameters regulated by 
+## calculations of bias and variance, as well as minimisation of the 
+## IMSE by double kernel
 #
-## hyp bio du solow = l'age du fossile en x est uniforme entre 0 et T(x)=date d'arrivee en x 
-##
+## biological hypothesis from Solow: = age of the dated specimen in x is uniform between
+## 0 and T(x) = arrival in x 
 ##
 
-##solow.fct = estimation des dates d'extinction aux points (xx,yy)
-##        en sortie Test= date estimee
-##                    biais=biais estime
-##		    sd   =ecart-type estime
-##sg.fct = calcul des coordonnées (xx,yy) des points d'interet
-##         nx = gere le pas de grille de depart en long x lat (grills nx x nx)
-##         dmmax =distance min entre deux points
-##         on elimine les points qui tombent dans l'eau
-##         puis les points qui sont à moins de dmmax d'un autre point
-##nbcoeur=nombre de coeurs demandes 
+## solow.fct = estimate of extinction/arrival dates at points (xx,yy)
+##        output  Test = estimated date
+##                biais = estimated bias
+##		            sd = estimaed standard deviation
+## sg.fct = calculated coordinates (xx,yy) of the points of interest
+##         nx = manages the departure grid step in longitude and latitude (grids nx x nx)
+##         dmmax = minimum distance between two points
+##         eliminates the points that fall on a grid cell with water
+##         and the points that are at least dmmax from another point
+## nbcoeur = number of requested kernels
 
 solow.fct <- function(xx=xx1,yy=yy1,Lon=Lon,Lat=Lat,Age=Age,SdAge=SdAge,nbcoeur=nbcoeur)
 {
