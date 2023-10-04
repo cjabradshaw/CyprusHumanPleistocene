@@ -1,4 +1,4 @@
-# Modelling human arrival (and its consequences) in Cyprus at the end of the Pleistocene
+# Modelling human arrival and spread in Cyprus at the end of the Pleistocene
 <img align="right" src="www/MIGRATElogo.jpg" width="200" style="margin-top: 20px">
 
 Part of the MIGRATE (<strong>M</strong>odell<strong>i</strong>ng Demo<strong>gr</strong>aphy and <strong>A</strong>daptation in the Initial Peopling of the Eastern M<strong>e</strong>diterranean Islandscape) project, under the auspices of the European Union Research and Innovation Foundation for Research, Technological Development and Innovation "Restart 2016-2020".
@@ -24,9 +24,7 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 - <code>CypAspatDemModel.R</code>: stochastic, age-structured human demographic projection model
 - <code>CypAspatDemModelMVPsim.R</code>: based on model above, vary founding population size to estimate change in probability of quasi-extinction
 - <code>CypAspatDemModelStaggeredEntry.R</code>: vary frequency and intervals of arrival of different group sizes (up to minimum viable population size calculated above) to determine minimum size of entering groups and frequency of immigration required to minimise quasi-extinction
-
-### Palaeontology
-- <code>dwarf hippo & elephant.R</code>: using dated fossil specimens of <a href="https://www.mindat.org/taxon-8626575.html">dwarf elephant</a> <em>Elaphas</em> (<em>Palaeoloxodon</em>) <em>cypriotes</em> and <a href="https://prehistoric-fauna.com/Hippopotamus-minor">dwarf hippopotamus</a> <em>Phanourios minor</em> from Cyprus, estimate Signor-Lipps corrected window of extinction
+- <code>densities.R</code>: bootstrapped estimates of human densities across Europe/Near East during the Late Pleistocene
 
 ### Source functions
 - <code>matrixOperators.r</code>: functions for manipulating matrices for population projections
@@ -51,6 +49,7 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 
 ### Demography
 - <em>world2013lifetable.csv</em>: human demographic data for age-structure determination (see <a href="http://doi.org/10.1038/s41559-019-0902-6">Bradshaw et al. 2019</a>)
+- <em>densities.csv</em>: estimates of human densities standardised to people km<sup>-2</sup> across Europe/Near East during the Late Pleistocene
 
 ### Palaeontology
 - <em>elaphas.txt</em>: radiocarbon dates for the <a href="https://www.mindat.org/taxon-8626575.html">dwarf elephant</a> <em>Elaphas</em> (<em>Palaeoloxodon</em>) <em>cypriotes</em> from Wigand & Simmons (1999) In: Simmons (ed.) <a href="https://link.springer.com/book/10.1007/b109876"><em>Faunal Extinction in an Island Society</em></a>
