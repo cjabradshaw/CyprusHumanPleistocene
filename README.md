@@ -1,4 +1,4 @@
-# Modelling human arrival and spread in Cyprus at the end of the Pleistocene
+# Modelling human arrival and spread in Cyprus 🇨🇾 at the end of the Pleistocene
 <a href="https://www.ucy.ac.cy/migrate/"><img align="right" src="www/MIGRATElogo.jpg" width="200" style="margin-top: 20px"></a>
 
 Part of the <a href="https://www.ucy.ac.cy/migrate/">MIGRATE</a> (<strong>M</strong>odell<strong>i</strong>ng Demo<strong>gr</strong>aphy and <strong>A</strong>daptation in the Initial Peopling of the Eastern M<strong>e</strong>diterranean Islandscape) project, under the auspices of the European Union Research and Innovation Foundation for Research, Technological Development and Innovation "Restart 2016-2020".
