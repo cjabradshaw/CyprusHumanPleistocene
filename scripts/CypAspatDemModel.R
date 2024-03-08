@@ -591,10 +591,12 @@ n.lo <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.025, na.rm=T) # lower over
 
 n.min <- apply(n.sums.mat, MARGIN=1, min, na.rm=T) # minimum over all projected years
 q.ext.vec <- ifelse(n.min < (min.thresh), 1, 0)
+
+# probability of (quasi-)extinction
 pr.ext <- sum(q.ext.vec)/iter
 pr.ext
 
-# plot
+# plot abundance projections 
 plot(yr.vec.run, (n.mn), type="l", xlab="ka", ylab="N", ylim=c((min(n.lo)),(max(n.up))))
 lines(yr.vec.run, (n.lo), lty=2, col="red")
 lines(yr.vec.run, (n.up), lty=2, col="red")
