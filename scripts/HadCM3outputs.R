@@ -1,10 +1,11 @@
-###############################################################################################
-## Hadley CM 3 hindcasted model outputs (NPP, temperature, precipitation, + their anomalies) ##
-## Corey Bradshaw
-## September 2023
-###############################################################################################
+#############################################################################
+## Hadley Centre Coupled Model version 3 (HadCM3) hindcasted outputs       ##
+## (net primary production, temperature, precipitation, + their anomalies) ##
+## Corey Bradshaw                                                          ##
+## March 2024                                                              ##
+#############################################################################
 
-## libraries
+## R libraries required
 library(sp)
 library(rgdal)
 library(raster)
@@ -20,7 +21,7 @@ library(spatstat)
 library(spatialEco)
 library(SpatialPack)
 
-## functions 
+## custom functions 
 # rescale a range
 rscale <- function (x, nx1, nx2, minx, maxx) {
   nx = nx1 + (nx2 - nx1) * (x - minx)/(maxx - minx)
@@ -46,10 +47,10 @@ coordlist2xyz <- function (list) {
 
 
 ####################################################
-## set grids
+## set Hadley Climate model grids for each layer
 ####################################################
 
-## NPP (HadCM3)
+## net primary production (HadCM3)
 nppH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_NPP(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 not.naH <- which(is.na(nppH[,3:dim(nppH)[2]]) == F, arr.ind=T)
 upper.rowH <- as.numeric(not.naH[1,1])
@@ -62,7 +63,7 @@ max.lonH <- max(nppH[not.naH[,1], 2])
 as.numeric(attr(table(nppH$Lat), "names")) # lats
 as.numeric(attr(table(nppH$Lon), "names")) # lons
 
-# Cyprus region
+# clip to Cyprus region
 cypr.subH <- rep(0, dim(nppH)[1])
 for (n in 1:dim(nppH)[1]) {
   cypr.subH[n] <- ifelse(nppH[n,1] >= min.latH & nppH[n,1] <= max.latH & nppH[n,2] >= min.lonH & nppH[n,2] <= max.lonH, 1, 0)
@@ -73,13 +74,14 @@ nppH.cypr <- nppH[cypr.keepH,]
 sub.entryH <- which(colnames(nppH.cypr) == paste("X",14000,sep=""))
 nppH.cypr.entry <- nppH.cypr[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(nppH.cypr.entry) = ~ Lon + Lat
 proj4string(nppH.cypr.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(nppH.cypr.entry) = TRUE
 nppH.entry = raster(nppH.cypr.entry)
 image(nppH.entry, col=rev(grey(1:100/100)))
 
-# transform to array
+# transform raster to array
 lzH <- dim(nppH.cypr)[2] - 2
 nppH.array <- array(data=NA, dim=c(dim(raster2matrix(nppH.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -109,17 +111,20 @@ nppH.cyp <- nppH[cyp.keepH,]
 sub.entryH <- which(colnames(nppH.cyp) == paste("X",14000,sep=""))
 nppH.cyp.entry <- nppH.cyp[,c(1,2,sub.entryH)]
 
+# create rasater
 coordinates(nppH.cyp.entry) = ~ Lon + Lat
 proj4string(nppH.cyp.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(nppH.cyp.entry) = TRUE
 nppHcyp.entry = raster(nppH.cyp.entry)
+
+# example plots
 image(nppHcyp.entry, col=rev(grey(1:100/100)))
 image(nppH.entry, col=rev(grey(1:100/100)))
 
 plot(nppH.entry)
 writeRaster(nppH.entry, filename="nppHentry.grd", format="raster")
 
-# transform to array
+# transform raster to array
 lzH <- dim(nppH.cyp)[2] - 2
 nppHcyp.array <- array(data=NA, dim=c(dim(raster2matrix(nppHcyp.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -131,13 +136,15 @@ for (k in 3:(lzH+2)) {
   nppHcyp.array[,,k-2] <- raster2matrix(nppHcyp.k)
 }
 ka.show <- 21
+
+# example plots
 par(mfrow=c(1,2))
 image((nppHcyp.array[,,ka.show]), col=rev(grey(1:100/100)))
 image((nppH.array[,,ka.show]), col=rev(grey(1:100/100)))
 par(mfrow=c(1,1))
 dim(nppHcyp.array)
 
-## NPP temporal outputs 20 ka—present (HadCM3) (Cyprus only)
+## net primary production temporal outputs 20 ka—present (HadCM3) (Cyprus only)
 t1000Hvec <- 0:20
 nppHcyp.array.20pres <- nppHcyp.array[,,1:length(t1000Hvec)]
 dim(nppHcyp.array.20pres)
@@ -149,12 +156,13 @@ for (t in 1:dim(nppHcyp.array.20pres)[3]) {
   cyp.nppH.lo[t] <- quantile(nppHcyp.array.20pres[,,t], probs=0.025, na.rm=T)
   cyp.nppH.up[t] <- quantile(nppHcyp.array.20pres[,,t], probs=0.975, na.rm=T)
 }
+
+# plot
 plot(t1000Hvec, cyp.nppH.mn, type="l", xlab="ka", ylab="NPP", ylim=c(min(cyp.nppH.lo), max(cyp.nppH.up)))
 lines(t1000Hvec, cyp.nppH.lo, lty=2, col="red")
 lines(t1000Hvec, cyp.nppH.up, lty=2, col="red")
 
-
-## NPP anomaly (HadCM3)
+## net primary production anomaly (HadCM3)
 nppanomH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_NPP(anomaliesvalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 
 as.numeric(attr(table(nppanomH$Lat), "names")) # lats
@@ -164,13 +172,14 @@ as.numeric(attr(table(nppanomH$Lon), "names")) # lons
 nppanomH.cypr <- nppanomH[cypr.keepH,]
 nppanomH.cypr.entry <- nppanomH.cypr[,c(1,2,sub.entryH)]
 
+# creat raster
 coordinates(nppanomH.cypr.entry) = ~ Lon + Lat
 proj4string(nppanomH.cypr.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(nppanomH.cypr.entry) = TRUE
 nppanomH.entry = raster(nppanomH.cypr.entry)
 image(nppanomH.entry, col=rev(grey(1:100/100)))
 
-# transform to array
+# transform raster to array
 lzH <- dim(nppanomH.cypr)[2] - 2
 nppanomH.array <- array(data=NA, dim=c(dim(raster2matrix(nppanomH.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -181,6 +190,7 @@ for (k in 3:(lzH+2)) {
   nppanomH.k = raster(nppanomH.cypr.k)
   nppanomH.array[,,k-2] <- raster2matrix(nppanomH.k)
 }
+# example plot
 image((nppanomH.array[,,5]), col=rev(grey(1:100/100)))
 dim(nppanomH.array)
 
@@ -190,6 +200,7 @@ nppanomH.cyp <- nppanomH[cyp.keepH,]
 sub.entryH <- which(colnames(nppanomH.cyp) == paste("X",14000,sep=""))
 nppanomH.cyp.entry <- nppanomH.cyp[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(nppanomH.cyp.entry) = ~ Lon + Lat
 proj4string(nppanomH.cyp.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(nppanomH.cyp.entry) = TRUE
@@ -200,7 +211,7 @@ image(nppanomH.entry, col=rev(grey(1:100/100)))
 plot(nppanomH.entry)
 writeRaster(nppanomH.entry, filename="nppanomHentry.grd", format="raster", overwrite=T)
 
-# transform to array
+# transform raster to array
 lzH <- dim(nppanomH.cyp)[2] - 2
 nppanomHcyp.array <- array(data=NA, dim=c(dim(raster2matrix(nppanomHcyp.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -212,13 +223,15 @@ for (k in 3:(lzH+2)) {
   nppanomHcyp.array[,,k-2] <- raster2matrix(nppanomHcyp.k)
 }
 ka.show <- 21
+
+# example plots
 par(mfrow=c(1,2))
 image((nppanomHcyp.array[,,ka.show]), col=rev(grey(1:100/100)))
 image((nppanomH.array[,,ka.show]), col=rev(grey(1:100/100)))
 par(mfrow=c(1,1))
 dim(nppanomHcyp.array)
 
-## NPP anomaly temporal outputs 20 ka—present (HadCM3) (Cyprus only)
+## net primary production anomaly temporal outputs 20 ka—present (HadCM3) (Cyprus only)
 t1000Hvec <- 0:20
 nppanomHcyp.array.20pres <- nppanomHcyp.array[,,1:length(t1000Hvec)]
 dim(nppanomHcyp.array.20pres)
@@ -235,7 +248,7 @@ lines(t1000Hvec, cyp.nppanomH.lo, lty=2, col="brown")
 lines(t1000Hvec, cyp.nppanomH.up, lty=2, col="brown")
 
 
-## TEMPERATURE (HadCM3)
+## temperature (HadCM3)
 tempH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_AnnualMeanTemperature(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 
 as.numeric(attr(table(tempH$Lat), "names")) # lats
@@ -245,13 +258,14 @@ as.numeric(attr(table(tempH$Lon), "names")) # lons
 tempH.cypr <- tempH[cypr.keepH,]
 tempH.cypr.entry <- tempH.cypr[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(tempH.cypr.entry) = ~ Lon + Lat
 proj4string(tempH.cypr.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(tempH.cypr.entry) = TRUE
 tempH.entry = raster(tempH.cypr.entry)
 image(tempH.entry, col=colorRamps::blue2red(20))
 
-# transform to array
+# transform raster to array
 lzH <- dim(tempH.cypr)[2] - 2
 tempH.array <- array(data=NA, dim=c(dim(raster2matrix(tempH.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -262,6 +276,7 @@ for (k in 3:(lzH+2)) {
   tempH.k = raster(tempH.cypr.k)
   tempH.array[,,k-2] <- raster2matrix(tempH.k)
 }
+# example plot
 image((tempH.array[,,5]), col=colorRamps::blue2red(20))
 dim(tempH.array)
 
@@ -271,6 +286,7 @@ tempH.cyp <- tempH[cyp.keepH,]
 sub.entryH <- which(colnames(tempH.cyp) == paste("X",14000,sep=""))
 tempH.cyp.entry <- tempH.cyp[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(tempH.cyp.entry) = ~ Lon + Lat
 proj4string(tempH.cyp.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(tempH.cyp.entry) = TRUE
@@ -281,7 +297,7 @@ image(tempH.entry, col=colorRamps::blue2red(20))
 plot(tempH.entry)
 writeRaster(tempH.entry, filename="tempHentry.grd", format="raster", overwrite=T)
 
-# transform to array
+# transform raster to array
 lzH <- dim(tempH.cyp)[2] - 2
 tempHcyp.array <- array(data=NA, dim=c(dim(raster2matrix(tempHcyp.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -293,13 +309,15 @@ for (k in 3:(lzH+2)) {
   tempHcyp.array[,,k-2] <- raster2matrix(tempHcyp.k)
 }
 ka.show <- 21
+
+# example plots
 par(mfrow=c(1,2))
 image((tempHcyp.array[,,ka.show]), col=colorRamps::blue2red(20))
 image((tempH.array[,,ka.show]), col=colorRamps::blue2red(20))
 par(mfrow=c(1,1))
 dim(tempHcyp.array)
 
-## TEMPERATURE temporal outputs 20 ka—present (HadCM3) (Cyprus only)
+## temperature temporal outputs 20 ka—present (HadCM3) (Cyprus only)
 t1000Hvec <- 0:20
 tempHcyp.array.20pres <- tempHcyp.array[,,1:length(t1000Hvec)]
 dim(tempHcyp.array.20pres)
@@ -316,7 +334,7 @@ lines(t1000Hvec, cyp.tempH.lo, lty=2, col="red")
 lines(t1000Hvec, cyp.tempH.up, lty=2, col="red")
 
 
-## TEMPERATURE anomaly (HadCM3)
+## temperature anomaly (HadCM3)
 tempanomH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_AnnualMeanTemperature(anomaliesvalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 
 as.numeric(attr(table(tempanomH$Lat), "names")) # lats
@@ -326,13 +344,14 @@ as.numeric(attr(table(tempanomH$Lon), "names")) # lons
 tempanomH.cypr <- tempanomH[cypr.keepH,]
 tempanomH.cypr.entry <- tempanomH.cypr[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(tempanomH.cypr.entry) = ~ Lon + Lat
 proj4string(tempanomH.cypr.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(tempanomH.cypr.entry) = TRUE
 tempanomH.entry = raster(tempanomH.cypr.entry)
 image(tempanomH.entry, col=colorRamps::blue2red(20))
 
-# transform to array
+# transform raster to array
 lzH <- dim(tempanomH.cypr)[2] - 2
 tempanomH.array <- array(data=NA, dim=c(dim(raster2matrix(tempanomH.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -343,6 +362,7 @@ for (k in 3:(lzH+2)) {
   tempanomH.k = raster(tempanomH.cypr.k)
   tempanomH.array[,,k-2] <- raster2matrix(tempanomH.k)
 }
+# example plot
 image((tempanomH.array[,,5]), col=colorRamps::blue2red(20))
 dim(tempanomH.array)
 
@@ -352,6 +372,7 @@ tempanomH.cyp <- tempanomH[cyp.keepH,]
 sub.entryH <- which(colnames(tempanomH.cyp) == paste("X",14000,sep=""))
 tempanomH.cyp.entry <- tempanomH.cyp[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(tempanomH.cyp.entry) = ~ Lon + Lat
 proj4string(tempanomH.cyp.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(tempanomH.cyp.entry) = TRUE
@@ -362,7 +383,7 @@ image(tempanomH.entry, col=colorRamps::blue2red(20))
 plot(tempanomH.entry)
 writeRaster(tempanomH.entry, filename="tempanomHentry.grd", format="raster", overwrite=T)
 
-# transform to array
+# transform raster to array
 lzH <- dim(tempanomH.cyp)[2] - 2
 tempanomHcyp.array <- array(data=NA, dim=c(dim(raster2matrix(tempanomHcyp.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -374,13 +395,15 @@ for (k in 3:(lzH+2)) {
   tempanomHcyp.array[,,k-2] <- raster2matrix(tempanomHcyp.k)
 }
 ka.show <- 21
+
+# example plots
 par(mfrow=c(1,2))
 image((tempanomHcyp.array[,,ka.show]), col=colorRamps::blue2red(20))
 image((tempanomH.array[,,ka.show]), col=colorRamps::blue2red(20))
 par(mfrow=c(1,1))
 dim(tempanomHcyp.array)
 
-## TEMPERATURE temporal outputs 20 ka—present (HadCM3) (Cyprus only)
+## temperature anomaly temporal outputs 20 ka—present (HadCM3) (Cyprus only)
 t1000Hvec <- 0:20
 tempanomHcyp.array.20pres <- tempanomHcyp.array[,,1:length(t1000Hvec)]
 dim(tempanomHcyp.array.20pres)
@@ -397,7 +420,7 @@ lines(t1000Hvec, cyp.tempanomH.lo, lty=2, col="red")
 lines(t1000Hvec, cyp.tempanomH.up, lty=2, col="red")
 
 
-## PRECIPITATION  (HadCM3)
+## precipitation (HadCM3)
 prcpH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_AnnualPrecipitation(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 
 as.numeric(attr(table(prcpH$Lat), "names")) # lats
@@ -407,13 +430,14 @@ as.numeric(attr(table(prcpH$Lon), "names")) # lons
 prcpH.cypr <- prcpH[cypr.keepH,]
 prcpH.cypr.entry <- prcpH.cypr[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(prcpH.cypr.entry) = ~ Lon + Lat
 proj4string(prcpH.cypr.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(prcpH.cypr.entry) = TRUE
 prcpH.entry = raster(prcpH.cypr.entry)
 image(prcpH.entry, col=rev(grDevices::blues9))
 
-# transform to array
+# transform rasterto array
 lzH <- dim(prcpH.cypr)[2] - 2
 prcpH.array <- array(data=NA, dim=c(dim(raster2matrix(prcpH.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -424,6 +448,7 @@ for (k in 3:(lzH+2)) {
   prcpH.k = raster(prcpH.cypr.k)
   prcpH.array[,,k-2] <- raster2matrix(prcpH.k)
 }
+# example plot
 image((prcpH.array[,,5]), col=rev(grDevices::blues9))
 dim(prcpH.array)
 
@@ -433,6 +458,7 @@ prcpH.cyp <- prcpH[cyp.keepH,]
 sub.entryH <- which(colnames(prcpH.cyp) == paste("X",14000,sep=""))
 prcpH.cyp.entry <- prcpH.cyp[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(prcpH.cyp.entry) = ~ Lon + Lat
 proj4string(prcpH.cyp.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(prcpH.cyp.entry) = TRUE
@@ -443,7 +469,7 @@ image(prcpH.entry, col=rev(grDevices::blues9))
 plot(prcpH.entry)
 writeRaster(prcpH.entry, filename="prcpHentry.grd", format="raster", overwrite=T)
 
-# transform to array
+# transform raster to array
 lzH <- dim(prcpH.cyp)[2] - 2
 prcpHcyp.array <- array(data=NA, dim=c(dim(raster2matrix(prcpHcyp.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -455,13 +481,15 @@ for (k in 3:(lzH+2)) {
   prcpHcyp.array[,,k-2] <- raster2matrix(prcpHcyp.k)
 }
 ka.show <- 21
+
+# example plots
 par(mfrow=c(1,2))
 image((prcpHcyp.array[,,ka.show]), col=rev(grDevices::blues9))
 image((prcpH.array[,,ka.show]), col=rev(grDevices::blues9))
 par(mfrow=c(1,1))
 dim(prcpHcyp.array)
 
-## PRECIPITATION temporal outputs 20 ka—present (HadCM3) (Cyprus only)
+## precipitation temporal outputs 20 ka—present (HadCM3) (Cyprus only)
 t1000Hvec <- 0:20
 prcpHcyp.array.20pres <- prcpHcyp.array[,,1:length(t1000Hvec)]
 dim(prcpHcyp.array.20pres)
@@ -478,7 +506,7 @@ lines(t1000Hvec, cyp.prcpH.lo, lty=2, col="blue")
 lines(t1000Hvec, cyp.prcpH.up, lty=2, col="blue")
 
 
-## PRECIPITATION anomaly (HadCM3)
+## precipitation anomaly (HadCM3)
 prcpanomH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_AnnualPrecipitation(anomaliesvalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 
 as.numeric(attr(table(prcpanomH$Lat), "names")) # lats
@@ -488,13 +516,14 @@ as.numeric(attr(table(prcpanomH$Lon), "names")) # lons
 prcpanomH.cypr <- prcpanomH[cypr.keepH,]
 prcpanomH.cypr.entry <- prcpanomH.cypr[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(prcpanomH.cypr.entry) = ~ Lon + Lat
 proj4string(prcpanomH.cypr.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(prcpanomH.cypr.entry) = TRUE
 prcpanomH.entry = raster(prcpanomH.cypr.entry)
 image(prcpanomH.entry, col=rev(grDevices::blues9))
 
-# transform to array
+# transform rasterto array
 lzH <- dim(prcpanomH.cypr)[2] - 2
 prcpanomH.array <- array(data=NA, dim=c(dim(raster2matrix(prcpanomH.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -505,6 +534,8 @@ for (k in 3:(lzH+2)) {
   prcpanomH.k = raster(prcpanomH.cypr.k)
   prcpanomH.array[,,k-2] <- raster2matrix(prcpanomH.k)
 }
+
+# example plot
 image((prcpanomH.array[,,5]), col=rev(grDevices::blues9))
 dim(prcpanomH.array)
 
@@ -514,6 +545,7 @@ prcpanomH.cyp <- prcpanomH[cyp.keepH,]
 sub.entryH <- which(colnames(prcpanomH.cyp) == paste("X",14000,sep=""))
 prcpanomH.cyp.entry <- prcpanomH.cyp[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(prcpanomH.cyp.entry) = ~ Lon + Lat
 proj4string(prcpanomH.cyp.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(prcpanomH.cyp.entry) = TRUE
@@ -524,7 +556,7 @@ image(prcpanomH.entry, col=rev(grDevices::blues9))
 plot(prcpanomH.entry)
 writeRaster(prcpanomH.entry, filename="prcpanomHentry.grd", format="raster", overwrite=T)
 
-# transform to array
+# transform raster to array
 lzH <- dim(prcpanomH.cyp)[2] - 2
 prcpanomHcyp.array <- array(data=NA, dim=c(dim(raster2matrix(prcpanomHcyp.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -536,13 +568,15 @@ for (k in 3:(lzH+2)) {
   prcpanomHcyp.array[,,k-2] <- raster2matrix(prcpanomHcyp.k)
 }
 ka.show <- 21
+
+# example plots
 par(mfrow=c(1,2))
 image((prcpanomHcyp.array[,,ka.show]), col=rev(grDevices::blues9))
 image((prcpanomH.array[,,ka.show]), col=rev(grDevices::blues9))
 par(mfrow=c(1,1))
 dim(prcpanomHcyp.array)
 
-## PRECIPITATION temporal outputs 20 ka—present (HadCM3) (Cyprus only)
+## precipitation anomaly temporal outputs 20 ka—present (HadCM3) (Cyprus only)
 t1000Hvec <- 0:20
 prcpanomHcyp.array.20pres <- prcpanomHcyp.array[,,1:length(t1000Hvec)]
 dim(prcpanomHcyp.array.20pres)
@@ -558,7 +592,7 @@ plot(t1000Hvec, cyp.prcpanomH.mn, type="l", xlab="ka", ylab="precipitation anoma
 lines(t1000Hvec, cyp.prcpanomH.lo, lty=2, col="blue")
 lines(t1000Hvec, cyp.prcpanomH.up, lty=2, col="blue")
 
-
+# combine into single dataframe
 had.out <- data.frame(t1000Hvec, cyp.nppanomH.mn, cyp.nppanomH.up, cyp.nppanomH.lo,
                       cyp.tempanomH.mn, cyp.tempanomH.up, cyp.tempanomH.lo,
                       cyp.prcpanomH.mn, cyp.prcpanomH.up, cyp.prcpanomH.lo,
