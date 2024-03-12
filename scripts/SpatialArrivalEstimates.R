@@ -1,25 +1,32 @@
-## Estimating arrival dates following Solow method;
-## principal = estimate a weighted likelihood, with weights depending
-## on the distance between the focal point and the observations.
-## The basic form is exponential, with the parameters regulated by 
-## calculations of bias and variance, as well as minimisation of the 
-## IMSE by double kernel
+## Estimating arrival dates following the method of Solow (1993; http://www.jstor.org/stable/1940821);
+## Principle = estimate a weighted likelihood, with weights depending on the distance between the focal point and the observations.
+## The basic form is exponential, with the parameters regulated by calculations of bias and variance, as well as minimisation of the 
+## integrated mean squared error (IMSE) using double kernel process
 #
-## biological hypothesis from Solow: = age of the dated specimen in x is uniform between
-## 0 and T(x) = arrival in x 
-##
+## full method is described in more mathematical detail in: Saltré et al. 2019 doi:10.1038/s41467-019-13277-0
+#
+## Biological hypothesis from Solow (1993): = age of the dated specimen in x is uniform between
+## 0 and T(x) = arrival in x
 
-## solow.fct = estimate of extinction/arrival dates at points (xx,yy)
-##        output  Test = estimated date
-##                biais = estimated bias
-##		            sd = estimaed standard deviation
-## sg.fct = calculated coordinates (xx,yy) of the points of interest
-##         nx = manages the departure grid step in longitude and latitude (grids nx x nx)
-##         dmmax = minimum distance between two points
-##         eliminates the points that fall on a grid cell with water
-##         and the points that are at least dmmax from another point
-## nbcoeur = number of requested kernels
+## Explain main functions & their outputs
+## solow.fct = function to estimate extinction/arrival dates at points (xx,yy)
+##        outputs:  
+##              - Test = estimated date
+##              - bias = estimated bias
+##		          - sd = estimated standard deviation
+## sg.fct = function to calculate coordinates (xx,yy) of the points of interest
+##              - nx = manages the departure grid step in longitude and latitude (grids nx x nx)
+##              - dmmax = minimum distance between two points
+##              - eliminates the points that fall on a grid cell with water and the points that are at least dmmax from another point
+##              - nbcoeur = number of requested kernels
 
+## required R libraries
+library(maps)
+library(doParallel)
+library(foreach)
+library(Imap)
+
+# define functions
 solow.fct <- function(xx=xx1,yy=yy1,Lon=Lon,Lat=Lat,Age=Age,SdAge=SdAge,nbcoeur=nbcoeur)
 {
   cl <- makeCluster(nbcoeur,outfile="")
@@ -121,7 +128,7 @@ solow.fct <- function(xx=xx1,yy=yy1,Lon=Lon,Lat=Lat,Age=Age,SdAge=SdAge,nbcoeur=
   result$iv <- iv
   result$voir <- voir
   return(result)
-}             ##fin solow.fct
+}             ## fin solow.fct
 
 
 
@@ -200,57 +207,33 @@ return(list(xx1=xx1,yy1=yy1))
 
 Full.dat <- read.csv("Cyprus_data.csv",header=T,sep=",",dec=".",na.strings="na")
 
-library(maps)
-library(doParallel)
-library(foreach)
-library(Imap)
-
-
 selobs <- !is.na(Full.dat$Lon) & !is.na(Full.dat$Lat)
 Lon <- Full.dat$Lon[selobs]
 Lat <- Full.dat$Lat[selobs]
 Age <- Full.dat$Calibrated.age[selobs]
 SdAge <- Full.dat$Calibrated.error[selobs]
 
-## modif pour reajuster la valeur fixe du min
-
+## modification to readjust the fixed value of the minimum
 minAge <- 1.01*min(Age)
 Age <- Age-minAge
 
 nx <-800
-#dmmax <- 100
 nbcoeur <- 10
 sg <- sousgrille.fct(nx,nbcoeur=nbcoeur)
 xx1 <- sg$xx1
 yy1 <- sg$yy1
-
 
 datxy<-data.frame(xx1,yy1)
 idxy<-which((datxy$xx1 >= min(Lon)-2) & (datxy$xx1 <= max(Lon)+1) & (datxy$yy1 >= min(Lat)-1) & (datxy$yy1 <= max(Lat)+2)) 
 xx1 <- xx1[idxy]
 yy1 <- yy1[idxy]
 
-
 est_solow <- solow.fct(xx=xx1,yy=yy1,Lon=Lon,Lat=Lat,Age=Age,SdAge=SdAge,nbcoeur=nbcoeur)
-#print("fin estim")
-#q()
 
-
-##hist(est_solow$Test)
-##plot(est_solow$Test,est_solow$sd)
-##map("world",ylim=c(3,80))
-##points(xx1,yy1,pch=19,col=grey(est_solow$Test/75000),cex=0.5)
-##points(Full.dat$Lon,Full.dat$Lat,col=2,cex=0.5,pch=19)
-
-#sel <- (est_solow$Test < 65000)
-##map("world")
-##points(xx1[sel],yy1[sel],pch=19,col=grey(est_solow$Test[sel]/65000),cex=0.5)
-##points(Full.dat$Lon,Full.dat$Lat,col=2,cex=0.5,pch=19)
-
-## sauvegarde et recup du min
-
+## save et finding the minimum
 res <- as.data.frame(list(Lon=xx1,Lat=yy1,estim=est_solow$Test+minAge,biais=est_solow$biais,sd=est_solow$sd))
 
+# write output
 write.table(res,"Estimates_Cyprus(800pts)_v2.csv",sep=";")
 
 
