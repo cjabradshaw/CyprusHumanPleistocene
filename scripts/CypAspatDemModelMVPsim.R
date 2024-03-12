@@ -1,10 +1,10 @@
 ########################################################################################
 ## Aspatial demographic projection model for Cyprus based on Hadley CM3 NPP hindcasts
 ## Corey Bradshaw
-## September 2023
+## March 2024
 ########################################################################################
 
-# libraries
+# R libraries required
 library(plotrix)
 library(boot)
 library(tcltk)
@@ -23,9 +23,9 @@ library(spatialEco)
 library(SpatialPack)
 
 ## source
-source("~/scripts/SourceFunctions/matrixOperators.r")
+source("~/scripts/SourceFunctions/matrixOperators.r") # matrix operators
 
-## functions
+## custom functions
 # stochastic beta sampler (single sample)
 stoch.beta.func <- function(mu, var) {
   Sx <- rbeta(length(mu), (((1 - mu) / var - 1 / mu) * mu ^ 2), ((((1 - mu) / var - 1 / mu) * mu ^ 2)*(1 / mu - 1)))
@@ -86,8 +86,7 @@ coordlist2xyz <- function (list) {
 }
 
 
-## NPP (HadCM3)
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/HadCM3")
+## net primary production (NPP) Hadley Centre Climate Model version 3 (HadCM3)
 nppH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_NPP(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 not.naH <- which(is.na(nppH[,3:dim(nppH)[2]]) == F, arr.ind=T)
 upper.rowH <- as.numeric(not.naH[1,1])
