@@ -1,20 +1,25 @@
-## Pleistocene human densities
+## Estimated densities of hunter-gatherer Homo sapiens in the Pleistocene 
+## of Europe and the Near East
+
+## resamples the available evidence to estimate boostrapped means and standard errors of the mean
+
+## required R libraries
 library(boot)
 
-# import
+# import data
 setwd("~/Documents/Papers/Palaeo/Cyprus/data/densities")
 dat <- read.table("densities.csv", header=T, sep=",")
 dat
 
-# just Mediterranean & Levant/Near East
+# include only densities estimated for the Mediterranean & Levant/Near East
 #dat <- dat[which(dat$region != ""), ]
 
 ## bootstrap mean
-iter <- 10000
+iter <- 10000 # number of iterations for bootstrap procedure
 dat.err <- dat[which(is.na(dat$up)==F),]
 dat.noerr <- dat[which(is.na(dat$up)==T),]
 
-# create runif for estimates with upper/lower
+# create random uniform sampler (runif) for estimates with upper/lower values
 med.boot <- rep(NA, iter)
 for (s in 1:iter) {
   
@@ -28,9 +33,9 @@ for (s in 1:iter) {
   
 } # end s
 
-med.boot.med <- median(med.boot)
-med.boot.up <- quantile(med.boot, probs=0.975)
-med.boot.lo <- quantile(med.boot, probs=0.025)
+med.boot.med <- median(med.boot) # median bootstrapped density
+med.boot.up <- quantile(med.boot, probs=0.975) # upper bootstrapped density bound
+med.boot.lo <- quantile(med.boot, probs=0.025) # lower bootstrapped density bound
 med.boot.up
 med.boot.lo
 
