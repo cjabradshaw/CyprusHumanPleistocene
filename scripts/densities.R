@@ -1,7 +1,7 @@
 ## Estimated densities of hunter-gatherer Homo sapiens in the Pleistocene 
 ## of Europe and the Near East
 
-## resamples the available evidence to estimate boostrapped means and standard errors of the mean
+## resamples the available densities to estimate boostrapped means and confidence bounds
 
 ## required R libraries
 library(boot)
