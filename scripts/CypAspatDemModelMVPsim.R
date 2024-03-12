@@ -1,5 +1,7 @@
 ########################################################################################
-## Aspatial demographic projection model for Cyprus based on Hadley CM3 NPP hindcasts
+## Aspatial demographic projection model for Cyprus based on Hadley Centre Coupled Model
+## version 3 (HadCM3) net primary production (NPP) hindcasts
+## extension: estimate minimum viable population size (MVP) of humans
 ## Corey Bradshaw
 ## March 2024
 ########################################################################################
