@@ -23,7 +23,7 @@ library(spatialEco)
 library(SpatialPack)
 
 ## source
-source("~/scripts/SourceFunctions/matrixOperators.r") # matrix operators
+source("~/scripts/SourceFunctions/matrixOperators.r") # matrix functions
 
 ## custom functions
 # stochastic beta sampler (single sample)
@@ -86,7 +86,7 @@ coordlist2xyz <- function (list) {
 }
 
 
-## net primary production (NPP) Hadley Centre Climate Model version 3 (HadCM3)
+## net primary production (NPP) Hadley Centre Coupled Model version 3 (HadCM3)
 nppH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_NPP(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 not.naH <- which(is.na(nppH[,3:dim(nppH)[2]]) == F, arr.ind=T)
 upper.rowH <- as.numeric(not.naH[1,1])
@@ -99,7 +99,7 @@ max.lonH <- max(nppH[not.naH[,1], 2])
 as.numeric(attr(table(nppH$Lat), "names")) # lats
 as.numeric(attr(table(nppH$Lon), "names")) # lons
 
-# Cyprus region
+# clip to Cyprus region
 cypr.subH <- rep(0, dim(nppH)[1])
 for (n in 1:dim(nppH)[1]) {
   cypr.subH[n] <- ifelse(nppH[n,1] >= min.latH & nppH[n,1] <= max.latH & nppH[n,2] >= min.lonH & nppH[n,2] <= max.lonH, 1, 0)
@@ -110,13 +110,14 @@ nppH.cypr <- nppH[cypr.keepH,]
 sub.entryH <- which(colnames(nppH.cypr) == paste("X",14000,sep=""))
 nppH.cypr.entry <- nppH.cypr[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(nppH.cypr.entry) = ~ Lon + Lat
 proj4string(nppH.cypr.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(nppH.cypr.entry) = TRUE
 nppH.entry = raster(nppH.cypr.entry)
 image(nppH.entry, col=rev(grey(1:100/100)))
 
-# transform to array
+# transform to array (each layer = 1 time step)
 lzH <- dim(nppH.cypr)[2] - 2
 nppH.array <- array(data=NA, dim=c(dim(raster2matrix(nppH.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -146,6 +147,7 @@ nppH.cyp <- nppH[cyp.keepH,]
 sub.entryH <- which(colnames(nppH.cyp) == paste("X",14000,sep=""))
 nppH.cyp.entry <- nppH.cyp[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(nppH.cyp.entry) = ~ Lon + Lat
 proj4string(nppH.cyp.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(nppH.cyp.entry) = TRUE
@@ -198,6 +200,7 @@ tail(globESL)
 
 age1yr.vec <- seq(0,20,.001)
 
+# iterate to account for all sources of error
 siter <- 1000
 esl.mat <- matrix(data=NA, nrow=siter, ncol=length(age1yr.vec))
 for (s in 1:siter) {
@@ -213,6 +216,7 @@ colnames(esl1yr.dat)[1] <- "age"
 head(esl1yr.dat)
 tail(esl1yr.dat)
 
+# plot
 plot(esl1yr.dat$age, esl1yr.dat$esl.mn, type="l", xlab="years before present", ylab="esl (m)")
 lines(esl1yr.dat$age, esl1yr.dat$esl.mn+esl1yr.dat$esl.sd, lty=2, col="red")
 lines(esl1yr.dat$age, esl1yr.dat$esl.mn-esl1yr.dat$esl.sd, lty=2, col="red")
@@ -221,15 +225,15 @@ lines(esl1yr.dat$age, esl1yr.dat$esl.mn-esl1yr.dat$esl.sd, lty=2, col="red")
 esl1yr20ka.dat <- esl1yr.dat[esl1yr.dat$age <= 20000,]
 tail(esl1yr20ka.dat)
 
+# output table
 write.table(esl1yr20ka.dat, "esl1yr20ka.csv", sep=",", row.names = F)
-
 
 ## GEBCO 2022 sea level vs. area of Cyprus
 cypAesl <- read.table("~/data/seaLevel/cypareaSL.csv", sep=",", header=T)
 head(cypAesl)
 plot(cypAesl$esl, cypAesl$cyp.area, type="l", xlab="esl (m)", ylab="area of Cyprus (km2)")
 
-
+# iterate to account for all uncertainty sources
 aiter <- 1000
 area.mat <- matrix(data=NA, nrow=aiter, ncol=dim(esl1yr20ka.dat)[1])
 for (a in 1:aiter) {
@@ -261,6 +265,7 @@ plot(esl1yr20ka.dat$age, esl1yr20ka.dat$esl.mn, type="l", xlab="years before pre
 lines(esl1yr20ka.dat$age, esl1yr20ka.dat$esl.mn+esl1yr20ka.dat$esl.sd, lty=2, col="red")
 lines(esl1yr20ka.dat$age, esl1yr20ka.dat$esl.mn-esl1yr20ka.dat$esl.sd, lty=2, col="red")
 
+# output table
 plot(cypAesl$esl, cypAesl$cyp.area, type="l", xlab="esl (m)", ylab="area of Cyprus (km2)")
 
 plot(areaT.dat$age, areaT.dat$areaC.mn, type="l", xlab="age", ylab="area of Cyprus (km2)")
@@ -268,7 +273,9 @@ lines(areaT.dat$age, areaT.dat$areaC.mn+areaT.dat$areaC.sd, lty=2, col="red")
 lines(areaT.dat$age, areaT.dat$areaC.mn-areaT.dat$areaC.sd, lty=2, col="red")
 par(mfrow=c(1,1))
 
-## relative density, carrying capacity
+## relative human density and carrying capacity (K) per grid cell
+# values derived from Tallavaara et al. 2018 PNAS doi:10.1073/pnas.1715638115
+# (see also Bradshaw et al. 2021 Nat Commun doi:10.1038/s41467-021-21551-3)
 # npp to K
 hum.dens.med <- 6.022271e-02
 hum.dens.lq <- 3.213640e-02
@@ -316,8 +323,8 @@ head(K.dat)
 ## demographic model ##
 #######################
 
-# Siler hazard h(x) (Gurven et al. 2007)
-# average hunter-gatherer
+# Siler hazard h(x) survival model, where x = age in years (Gurven and Kaplan 2007 Pop Dev Review doi:10.1111/j.1728-4457.2007.00171.x)
+# average hunter-gatherer parameter values from Gurven and Kaplan
 a1 <- 0.422 # initial infant mortality rate (also known as αt)
 b1 <- 1.131 # rate of mortality decline (also known as bt)
 a2 <- 0.013 # age-independent mortality (exogenous mortality due to environment); also known as ct
@@ -341,7 +348,7 @@ f.x <- a3*exp(b3*x)*exp((a3/b3)/(1-exp(b3*x))) # probability density function
 (log(a3) - log(a1)) / a3
 T.s <- (1/b3) # modal survival time
 
-# average forager-horticuluralist
+# average forager-horticuluralist parameter values from Guven and Kaplan (not used)
 a1.fh <- 0.418; b1.fh <- 1.657; a2.fh <- 0.012; a3.fh <- 3.65e-04; b3.fh <- 0.074
 h.x.fh <- a1.fh * exp(-b1.fh*x) + a2.fh + a3.fh * exp(b3.fh * x)
 plot(x,h.x.fh,pch=19,type="l")
@@ -349,7 +356,7 @@ plot(x,log(h.x.fh),pch=19,type="l")
 l.x.fh <- exp((-a1.fh/b1.fh) * (1 - exp(-b1.fh*x))) * exp(-a2.fh * x) * exp(a3.fh/b3.fh * (1 - exp(b3.fh * x)))
 plot(x,l.x.fh,type="l")
 
-# NT Aboriginal
+# NT Aboriginal parameter values from Guven and Kaplan (not used)
 a1.nta <- 0.242; b1.nta <- 1.031; a2.nta <- 0.000; a3.nta <- 7.13e-04; b3.nta <- 0.063
 h.nta <- a1.nta * exp(-b1.nta*x) + a2.nta + a3.nta * exp(b3.nta * x)
 plot(x,h.nta,pch=19,type="l")
@@ -357,7 +364,7 @@ plot(x,log(h.nta),pch=19,type="l")
 l.x.nta <- exp((-a1.nta/b1.nta) * (1 - exp(-b1.nta*x))) * exp(-a2.nta * x) * exp(a3.nta/b3.nta * (1 - exp(b3.nta * x)))
 plot(x,l.x.nta,type="l")
 
-## survival
+## survival calculation (S at age X)
 init.pop <- 10000
 lx <- round(init.pop*l.x,0)
 len.lx <- length(lx)
@@ -375,7 +382,7 @@ ex
 ex.avg <- ex + x[-len.lx]
 ex.avg
 
-# average forager-horticulturalist
+# average forager-horticulturalist (not used)
 lx.fh <- round(init.pop*l.x.fh,0)
 len.lx.fh <- length(lx.fh)
 dx.fh <- lx.fh[1:(len.lx.fh-1)]-lx.fh[2:len.lx.fh]
@@ -387,7 +394,7 @@ Lx.fh <- (lx.fh[1:(len.lx.fh-1)] + lx.fh[2:len.lx.fh])/2
 ex.fh <- rev(cumsum(rev(Lx.fh)))/lx[-len.lx.fh]
 ex.avg.fh <- ex.fh + x[-len.lx.fh]
 
-# average NT aboriginal
+# average NT aboriginal (not used)
 lx.nta <- round(init.pop*l.x.nta,0)
 len.lx.nta <- length(lx.nta)
 dx.nta <- lx.nta[1:(len.lx.nta-1)]-lx.nta[2:len.lx.nta]
@@ -399,7 +406,7 @@ Lx.nta <- (lx.nta[1:(len.lx.nta-1)] + lx.nta[2:len.lx.nta])/2
 ex.nta <- rev(cumsum(rev(Lx.nta)))/lx[-len.lx.nta]
 ex.avg.nta <- ex.nta + x[-len.lx.nta]
 
-# set SD for Sx
+# set standard deviation for Sx
 Sx.sd <- 0.05 # can set to any value
 
 par(mfrow=c(2,1))
@@ -414,7 +421,7 @@ plot(x[-1], Sx, pch=19, type="l", xlab="age (years)", ylab="Sx") # average hunte
 lines(x[-1], Sx.fh, lty=2, lwd=3, col="red") # average forager-horticulturalist
 lines(x[-1], Sx.fh, lty=3, lwd=3, col="green") # NT aboriginal
 
-# fertility (Walker et al. 2006)
+# fertility parameters (from Walker et al. 2006 Am J Hum Biol doi:10.1002/ajhb.20510)
 primiparity.walker <- c(17.7,18.7,19.5,18.5,18.5,18.7,25.7,19,20.5,18.8,17.8,18.6,22.2,17,16.2,18.4)
 prim.mean <- round(mean(primiparity.walker),0)
 prim.lo <- round(quantile(primiparity.walker,probs=0.025),0)
@@ -431,7 +438,7 @@ plot(x,fert.vec, type="l", xlab="age (years)", ylab="fertility")
 fert.out <- data.frame(x,fert.vec)
 colnames(fert.out)[2] <- "fert"
 
-## construct matrix
+## construct deterministic Leslie matrix
 stages <- len.lx
 popmat <- matrix(0,nrow=stages,ncol=stages)
 colnames(popmat) <- x
@@ -450,7 +457,7 @@ stable.stage.dist(popmat) ## stable stage distribution
 plot(x,stable.stage.dist(popmat),type="l")
 R.val(popmat,stages) # reproductive value
 gen.l <- G.val(popmat,stages) # mean generation length
-cat.pr <- 0.14/gen.l # probability of catastrophe (Reed et al. 2003)
+cat.pr <- 0.14/gen.l # probability of catastrophe per generation (from Reed et al. 2003 Anim Conserv doi:10.1017/S1367943003147)
 
 ## different Siler model parameters' influence on base matrix
 popmat.fh <- popmat.orig # forager-horticulturalist
@@ -468,7 +475,7 @@ pop.found <- 2750 # founding population size
 init.vec <- stable.stage.dist(popmat) * pop.found
 
 #################
-## project
+## project through time
 ## set time limit for projection in 1-yr increments
 yr.now <- 1 # 
 #************************
@@ -476,7 +483,7 @@ yr.end <- 15000 # set projection end date
 #************************
 t <- (yr.end - yr.now)
 
-tot.F <- sum(popmat.orig[1,])
+tot.F <- sum(popmat.orig[1,]) # total number of females
 popmat <- popmat.orig
 yr.vec <- seq(yr.now,yr.end)
 
@@ -492,11 +499,7 @@ for (i in 1:t) {
 ## year projection vector
 yrs <- seq(yr.end,yr.now,-1)
 
-# plot
-#plot(yrs,log10(as.vector(colSums(n.mat))),type="l",xlab="year",ylab="log10 N",xlim=c(yr.now,yr.end))
-
-
-## density feedback function on survival
+## density feedback function on survival (to avoid exponential growth without limit)
 popmat <- popmat.orig
 Sx.mod <- 0.99615*Sx
 diag(popmat[2:stages,]) <- Sx.mod
@@ -514,11 +517,11 @@ gen.proj <- 150
 # iterations
 iter <- 10000
 
-# set quasi-extinction threshold
+# set quasi-extinction threshold (number of females below which conclusion = 'quasi'-extinction)
 min.thresh <- 50
 
 #################
-## project
+## project through time
 ## set time limit for projection in 1-yr increments
 yr.st <- round(runif(iter,col.yng,col.old), 0) 
 #************************
@@ -530,7 +533,7 @@ t <- (yr.st - yr.en)
 popmat <- popmat.orig
 init.vec <- stable.stage.dist(popmat) * pop.found/2 # stable stage distribution x founding population size (female only)
 
-## set population storage matrices
+## set population storage matrices (age-specific abundances)
 f.mat <- matrix(0,nrow=stages,ncol=(t[1]+1))
 f.mat[,1] <- init.vec
 
@@ -548,11 +551,8 @@ for (e in 1:iter) { # e iterations loop
   yr.st.sub <- which(K.dat$intyrs.vec == yr.st[e])
   yr.en.sub <- which(K.dat$intyrs.vec == yr.en[e])
   yr.vec.run <- yr.st[e]:yr.en[e]
+  # stochastic carrying capacity
   K.run <- rnorm(length(yr.vec.run), mean=K.dat$Ksmooth.md[yr.st.sub:yr.en.sub], sd=K.dat$Ksmooth.sd[yr.st.sub:yr.en.sub]) # this iteration's realised K series
-  #plot(yr.vec.run, K.run, type="l", xlab="year",ylab="K (N)")
-  # Krun.dat <- data.frame(yr.vec.run, K.run) # write example K run
-  # setwd("/Users/brad0317/Documents/Papers/Palaeo/Cyprus/out")
-  # write.table(Krun.dat, "Krun.csv", sep=",", row.names = F)
   
   ## reset popmat to original values
   popmat <- popmat.orig
@@ -579,17 +579,19 @@ for (e in 1:iter) { # e iterations loop
   setTxtProgressBar(pb, e)
 } # end e iterations loop
 
-# N confidence limits
+# abundance confidence limits
 n.mn <- apply(n.sums.mat, MARGIN=2, mean, na.rm=T) # mean over all iterations
 n.up <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.975, na.rm=T) # upper over all iterations
 n.lo <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.025, na.rm=T) # lower over all iterations
 
 n.min <- apply(n.sums.mat, MARGIN=1, min, na.rm=T) # minimum over all projected years
 q.ext.vec <- ifelse(n.min < (min.thresh), 1, 0)
+
+# probability of (quasi-)extinction
 pr.ext <- sum(q.ext.vec)/iter
 pr.ext
 
-# plot
+# plot abundance projections
 plot(yr.vec.run, (n.mn), type="l", xlab="ka", ylab="N", ylim=c((min(n.lo)),(max(n.up))))
 lines(yr.vec.run, (n.lo), lty=2, col="red")
 lines(yr.vec.run, (n.up), lty=2, col="red")
@@ -598,20 +600,21 @@ Nproj.out <- data.frame(yr.vec.run, n.mn, n.up, n.lo)
 write.table(Nproj.out, "Nproj.csv", row.names = F, sep=",")
 
 
-##################
-## estimate MVP ##
-##################
-iter <- 10000
+###################################################
+## estimate minimum viable population size (MVP) ##
+###################################################
+iter <- 10000 # set number of stochastic iterations
 
 yr.st <- round(runif(iter,col.yng,col.old), 0) 
 #************************
 yr.en <- yr.st - round(gen.proj*gen.l, 0) # set projection end date
 #************************
-t <- (yr.st - yr.en)
+t <- (yr.st - yr.en) # projection time
 
-found.vec <- seq(500, 4000, 250)
-pr.ext.vec <- rep(NA, length(found.vec))
+found.vec <- seq(500, 4000, 250) # increment founding population size vector
+pr.ext.vec <- rep(NA, length(found.vec)) # storage vector for probability of (quasi-)extinction
 
+# start incrementing founding population size loop
 for (f in 1:length(found.vec)) {
 
   ## initial population vector
@@ -633,12 +636,13 @@ for (f in 1:length(found.vec)) {
     yr.st.sub <- which(K.dat$intyrs.vec == yr.st[e])
     yr.en.sub <- which(K.dat$intyrs.vec == yr.en[e])
     yr.vec.run <- yr.st[e]:yr.en[e]
+    # stochastically resample carrying capacity
     K.run <- rnorm(length(yr.vec.run), mean=K.dat$Ksmooth.md[yr.st.sub:yr.en.sub], sd=K.dat$Ksmooth.sd[yr.st.sub:yr.en.sub]) # this iteration's realised K series
 
     ## reset popmat to original values
     popmat <- popmat.orig
     
-    ## set up projection loop
+    ## set up temporal projection loop
     for (i in 1:t[e]) { # i projection loop
       
       ## reconstruct popmat with stochastic elements
@@ -654,22 +658,25 @@ for (f in 1:length(found.vec)) {
       f.mat[,i+1] <- popmat %*% f.mat[,i] # females
       
     } # end i projection-length loop
-    
+
+    # store abundances
     n.sums.mat[e,] <- 2 * as.vector(colSums(f.mat)) # total population (F + M)
     
     setTxtProgressBar(pb, e)
   } # end e iterations loop
   
-  # N confidence limits
+  # abundance confidence limits
   n.mn <- apply(n.sums.mat, MARGIN=2, mean, na.rm=T) # mean over all iterations
   n.up <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.975, na.rm=T) # upper over all iterations
   n.lo <- apply(n.sums.mat, MARGIN=2, quantile, probs=0.025, na.rm=T) # lower over all iterations
   
   n.min <- apply(n.sums.mat, MARGIN=1, min, na.rm=T) # minimum over all projected years
   q.ext.vec <- ifelse(n.min < (min.thresh), 1, 0)
+
+  # calculate probability of (quasi-)extinction
   pr.ext.vec[f] <- sum(q.ext.vec)/iter
 
-  # plot
+  # plot abundance trajectory
   plot(yr.vec.run, (n.mn), type="l", xlab="ka", ylab="N", ylim=c((min(n.lo)),(max(n.up))))
   lines(yr.vec.run, (n.lo), lty=2, col="red")
   lines(yr.vec.run, (n.up), lty=2, col="red")
@@ -680,6 +687,7 @@ for (f in 1:length(found.vec)) {
 
 } # end f
 
+# plot probability of (quasi-)extinction versus founding population size
 plot(found.vec, pr.ext.vec, type="l", lty=2, col="red", xlab="founding N", ylab="Pr(Qext)")
 
 foundN.ext <- data.frame(found.vec, pr.ext.vec)
