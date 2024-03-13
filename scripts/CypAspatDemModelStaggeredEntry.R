@@ -1,10 +1,11 @@
 ########################################################################################
-## Aspatial demographic projection model for Cyprus based on Hadley CM3 NPP hindcasts
-## Corey Bradshaw
-## September 2023
+## Aspatial demographic projection model for Cyprus based on Hadley Centre Coupled Model
+## version 3 (HadCM3) net primary production (NPP) hindcasts
+## extension: estimate minimum viable population size with a staggered entry pattern
+## March 2024
 ########################################################################################
 
-# libraries
+# required R libraries
 library(plotrix)
 library(boot)
 library(tcltk)
@@ -22,11 +23,10 @@ library(spatstat)
 library(spatialEco)
 library(SpatialPack)
 
-
 ## source
-source("~/scripts/SourceFunctions//matrixOperators.r")
+source("~/scripts/SourceFunctions//matrixOperators.r") # matrix functions
 
-## functions
+## custom functions
 # stochastic beta sampler (single sample)
 stoch.beta.func <- function(mu, var) {
   Sx <- rbeta(length(mu), (((1 - mu) / var - 1 / mu) * mu ^ 2), ((((1 - mu) / var - 1 / mu) * mu ^ 2)*(1 / mu - 1)))
@@ -87,7 +87,7 @@ coordlist2xyz <- function (list) {
 }
 
 
-## NPP (HadCM3)
+## net primary production (NPP) Hadley Centre Coupled Model version 3 (HadCM3)
 nppH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_NPP(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 not.naH <- which(is.na(nppH[,3:dim(nppH)[2]]) == F, arr.ind=T)
 upper.rowH <- as.numeric(not.naH[1,1])
@@ -100,7 +100,7 @@ max.lonH <- max(nppH[not.naH[,1], 2])
 as.numeric(attr(table(nppH$Lat), "names")) # lats
 as.numeric(attr(table(nppH$Lon), "names")) # lons
 
-# Cyprus region
+# clip to Cyprus region
 cypr.subH <- rep(0, dim(nppH)[1])
 for (n in 1:dim(nppH)[1]) {
   cypr.subH[n] <- ifelse(nppH[n,1] >= min.latH & nppH[n,1] <= max.latH & nppH[n,2] >= min.lonH & nppH[n,2] <= max.lonH, 1, 0)
