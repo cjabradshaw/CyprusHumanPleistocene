@@ -87,7 +87,6 @@ coordlist2xyz <- function (list) {
   return(coordxyz=coords)
 }
 
-
 ## net primary production (NPP) Hadley Centre Coupled Model version 3 (HadCM3)
 nppH <- read.table("~/data/HadCM3/CyprusRegion(20ka)_NPP(absolutevalues).csv", header=T, sep=",") # 0.5 deg lat resolution
 not.naH <- which(is.na(nppH[,3:dim(nppH)[2]]) == F, arr.ind=T)
@@ -119,7 +118,7 @@ gridded(nppH.cypr.entry) = TRUE
 nppH.entry = raster(nppH.cypr.entry)
 image(nppH.entry, col=rev(grey(1:100/100)))
 
-# transform to array (each layer = 1 time step)
+# transform raster to array (each layer = 1 time step)
 lzH <- dim(nppH.cypr)[2] - 2
 nppH.array <- array(data=NA, dim=c(dim(raster2matrix(nppH.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -130,6 +129,7 @@ for (k in 3:(lzH+2)) {
   nppH.k = raster(nppH.cypr.k)
   nppH.array[,,k-2] <- raster2matrix(nppH.k)
 }
+# example plot
 image((nppH.array[,,5]), col=rev(grey(1:100/100)))
 dim(nppH.array)
 
@@ -159,7 +159,7 @@ image(nppH.entry, col=rev(grey(1:100/100)))
 
 plot(nppH.entry)
 
-# transform to array
+# transform raster to array
 lzH <- dim(nppH.cyp)[2] - 2
 nppHcyp.array <- array(data=NA, dim=c(dim(raster2matrix(nppHcyp.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -177,7 +177,7 @@ image((nppH.array[,,ka.show]), col=rev(grey(1:100/100)))
 par(mfrow=c(1,1))
 dim(nppHcyp.array)
 
-## NPP temporal outputs 20 ka—present (HadCM3) (Cyprus only)
+## net primary production temporal outputs 20 ka—present (HadCM3) (Cyprus only)
 t1000Hvec <- 0:20
 nppHcyp.array.20pres <- nppHcyp.array[,,1:length(t1000Hvec)]
 dim(nppHcyp.array.20pres)
@@ -230,7 +230,7 @@ tail(esl1yr20ka.dat)
 # output table
 write.table(esl1yr20ka.dat, "esl1yr20ka.csv", sep=",", row.names = F)
 
-## GEBCO 2022 sea level vs. area of Cyprus
+## General Bathymetric Chart of the Oceans (GEBCO; gebco.net) 2022 sea level vs. area of Cyprus
 cypAesl <- read.table("~/data/seaLevel/cypareaSL.csv", sep=",", header=T)
 head(cypAesl)
 plot(cypAesl$esl, cypAesl$cyp.area, type="l", xlab="esl (m)", ylab="area of Cyprus (km2)")
@@ -260,14 +260,15 @@ plot(areaT.dat$age, areaT.dat$areaC.mn, type="l", xlab="age", ylab="area of Cypr
 lines(areaT.dat$age, areaT.dat$areaC.mn+areaT.dat$areaC.sd, lty=2, col="red")
 lines(areaT.dat$age, areaT.dat$areaC.mn-areaT.dat$areaC.sd, lty=2, col="red")
 
+# output table
 write.table(areaT.dat, "areaT.csv", sep=",", row.names = F)
 
+# plots
 par(mfrow=c(1,3))
 plot(esl1yr20ka.dat$age, esl1yr20ka.dat$esl.mn, type="l", xlab="years before present", ylab="esl (m)")
 lines(esl1yr20ka.dat$age, esl1yr20ka.dat$esl.mn+esl1yr20ka.dat$esl.sd, lty=2, col="red")
 lines(esl1yr20ka.dat$age, esl1yr20ka.dat$esl.mn-esl1yr20ka.dat$esl.sd, lty=2, col="red")
 
-# output table
 plot(cypAesl$esl, cypAesl$cyp.area, type="l", xlab="esl (m)", ylab="area of Cyprus (km2)")
 
 plot(areaT.dat$age, areaT.dat$areaC.mn, type="l", xlab="age", ylab="area of Cyprus (km2)")
