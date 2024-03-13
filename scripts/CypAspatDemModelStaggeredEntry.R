@@ -111,13 +111,14 @@ nppH.cypr <- nppH[cypr.keepH,]
 sub.entryH <- which(colnames(nppH.cypr) == paste("X",14000,sep=""))
 nppH.cypr.entry <- nppH.cypr[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(nppH.cypr.entry) = ~ Lon + Lat
 proj4string(nppH.cypr.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(nppH.cypr.entry) = TRUE
 nppH.entry = raster(nppH.cypr.entry)
 image(nppH.entry, col=rev(grey(1:100/100)))
 
-# transform to array
+# transform raster to array (each layer = 1 time step)
 lzH <- dim(nppH.cypr)[2] - 2
 nppH.array <- array(data=NA, dim=c(dim(raster2matrix(nppH.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -128,6 +129,8 @@ for (k in 3:(lzH+2)) {
   nppH.k = raster(nppH.cypr.k)
   nppH.array[,,k-2] <- raster2matrix(nppH.k)
 }
+
+# example plot
 image((nppH.array[,,5]), col=rev(grey(1:100/100)))
 dim(nppH.array)
 
@@ -147,6 +150,7 @@ nppH.cyp <- nppH[cyp.keepH,]
 sub.entryH <- which(colnames(nppH.cyp) == paste("X",14000,sep=""))
 nppH.cyp.entry <- nppH.cyp[,c(1,2,sub.entryH)]
 
+# create raster
 coordinates(nppH.cyp.entry) = ~ Lon + Lat
 proj4string(nppH.cyp.entry)=CRS("+proj=longlat +datum=WGS84") # set it to lat-long
 gridded(nppH.cyp.entry) = TRUE
@@ -156,7 +160,7 @@ image(nppH.entry, col=rev(grey(1:100/100)))
 
 plot(nppH.entry)
 
-# transform to array
+# transform raster to array
 lzH <- dim(nppH.cyp)[2] - 2
 nppHcyp.array <- array(data=NA, dim=c(dim(raster2matrix(nppHcyp.entry)),lzH))
 for (k in 3:(lzH+2)) {
@@ -174,7 +178,7 @@ image((nppH.array[,,ka.show]), col=rev(grey(1:100/100)))
 par(mfrow=c(1,1))
 dim(nppHcyp.array)
 
-## NPP temporal outputs 20 ka—present (HadCM3) (Cyprus only)
+## net primary production temporal outputs 20 ka—present (HadCM3) (Cyprus only)
 t1000Hvec <- 0:20
 nppHcyp.array.20pres <- nppHcyp.array[,,1:length(t1000Hvec)]
 dim(nppHcyp.array.20pres)
@@ -190,7 +194,6 @@ plot(t1000Hvec, cyp.nppH.mn, type="l", xlab="ka", ylab="NPP", ylim=c(min(cyp.npp
 lines(t1000Hvec, cyp.nppH.lo, lty=2, col="red")
 lines(t1000Hvec, cyp.nppH.up, lty=2, col="red")
 
-
 ## estimated sea level and change in area of Cyprus
 ## Global ESL reconstruction - Lambeck et al. (2014) https://doi.org/10.1073/pnas.1411762111
 globESL <- read.table("~/data/seaLevel/lambeckESL.csv", sep=",", header=T)
@@ -199,6 +202,7 @@ tail(globESL)
 
 age1yr.vec <- seq(0,20,.001)
 
+# iterate to account for all sources of error
 siter <- 1000
 esl.mat <- matrix(data=NA, nrow=siter, ncol=length(age1yr.vec))
 for (s in 1:siter) {
@@ -214,6 +218,7 @@ colnames(esl1yr.dat)[1] <- "age"
 head(esl1yr.dat)
 tail(esl1yr.dat)
 
+# plot
 plot(esl1yr.dat$age, esl1yr.dat$esl.mn, type="l", xlab="years before present", ylab="esl (m)")
 lines(esl1yr.dat$age, esl1yr.dat$esl.mn+esl1yr.dat$esl.sd, lty=2, col="red")
 lines(esl1yr.dat$age, esl1yr.dat$esl.mn-esl1yr.dat$esl.sd, lty=2, col="red")
@@ -222,15 +227,15 @@ lines(esl1yr.dat$age, esl1yr.dat$esl.mn-esl1yr.dat$esl.sd, lty=2, col="red")
 esl1yr20ka.dat <- esl1yr.dat[esl1yr.dat$age <= 20000,]
 tail(esl1yr20ka.dat)
 
+# output table
 write.table(esl1yr20ka.dat, "esl1yr20ka.csv", sep=",", row.names = F)
 
-
-## GEBCO 2022 sea level vs. area of Cyprus
+## General Bathymetric Chart of the Oceans (GEBCO; gebco.net) 2022 sea level vs. area of Cyprus
 cypAesl <- read.table("~/data/seaLevel/cypareaSL.csv", sep=",", header=T)
 head(cypAesl)
 plot(cypAesl$esl, cypAesl$cyp.area, type="l", xlab="esl (m)", ylab="area of Cyprus (km2)")
 
-
+# iterate to account for all uncertainty sources
 aiter <- 1000
 area.mat <- matrix(data=NA, nrow=aiter, ncol=dim(esl1yr20ka.dat)[1])
 for (a in 1:aiter) {
@@ -255,6 +260,7 @@ plot(areaT.dat$age, areaT.dat$areaC.mn, type="l", xlab="age", ylab="area of Cypr
 lines(areaT.dat$age, areaT.dat$areaC.mn+areaT.dat$areaC.sd, lty=2, col="red")
 lines(areaT.dat$age, areaT.dat$areaC.mn-areaT.dat$areaC.sd, lty=2, col="red")
 
+# output table
 write.table(areaT.dat, "areaT.csv", sep=",", row.names = F)
 
 par(mfrow=c(1,3))
@@ -262,6 +268,7 @@ plot(esl1yr20ka.dat$age, esl1yr20ka.dat$esl.mn, type="l", xlab="years before pre
 lines(esl1yr20ka.dat$age, esl1yr20ka.dat$esl.mn+esl1yr20ka.dat$esl.sd, lty=2, col="red")
 lines(esl1yr20ka.dat$age, esl1yr20ka.dat$esl.mn-esl1yr20ka.dat$esl.sd, lty=2, col="red")
 
+# plots
 plot(cypAesl$esl, cypAesl$cyp.area, type="l", xlab="esl (m)", ylab="area of Cyprus (km2)")
 
 plot(areaT.dat$age, areaT.dat$areaC.mn, type="l", xlab="age", ylab="area of Cyprus (km2)")
@@ -269,7 +276,9 @@ lines(areaT.dat$age, areaT.dat$areaC.mn+areaT.dat$areaC.sd, lty=2, col="red")
 lines(areaT.dat$age, areaT.dat$areaC.mn-areaT.dat$areaC.sd, lty=2, col="red")
 par(mfrow=c(1,1))
 
-## relative density, carrying capacity
+## relative human density and carrying capacity (K) per grid cell
+# values derived from Tallavaara et al. 2018 PNAS doi:10.1073/pnas.1715638115
+# (see also Bradshaw et al. 2021 Nat Commun doi:10.1038/s41467-021-21551-3)
 # npp to K
 hum.dens.med <- 6.022271e-02
 hum.dens.lq <- 3.213640e-02
@@ -315,8 +324,8 @@ head(K.dat)
 ## demographic model ##
 #######################
 
-# Siler hazard h(x) (Gurven et al. 2007)
-# average hunter-gatherer
+# Siler hazard h(x) survival model, where x = age in years (Gurven and Kaplan 2007 Pop Dev Review doi:10.1111/j.1728-4457.2007.00171.x)
+# average hunter-gatherer parameter values from Gurven and Kaplan
 a1 <- 0.422 # initial infant mortality rate (also known as αt)
 b1 <- 1.131 # rate of mortality decline (also known as bt)
 a2 <- 0.013 # age-independent mortality (exogenous mortality due to environment); also known as ct
@@ -340,7 +349,7 @@ f.x <- a3*exp(b3*x)*exp((a3/b3)/(1-exp(b3*x))) # probability density function
 (log(a3) - log(a1)) / a3
 T.s <- (1/b3) # modal survival time
 
-# average forager-horticuluralist
+# average forager-horticuluralist parameter values from Guven and Kaplan (not used)
 a1.fh <- 0.418; b1.fh <- 1.657; a2.fh <- 0.012; a3.fh <- 3.65e-04; b3.fh <- 0.074
 h.x.fh <- a1.fh * exp(-b1.fh*x) + a2.fh + a3.fh * exp(b3.fh * x)
 plot(x,h.x.fh,pch=19,type="l")
