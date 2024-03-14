@@ -554,7 +554,7 @@ for (e in 1:iter) { # e iterations loop
   yr.st.sub <- which(K.dat$intyrs.vec == yr.st[e])
   yr.en.sub <- which(K.dat$intyrs.vec == yr.en[e])
   yr.vec.run <- yr.st[e]:yr.en[e]
-  # stochastic carrying capacity
+  # stochastic carrying capacity sampler
   K.run <- rnorm(length(yr.vec.run), mean=K.dat$Ksmooth.md[yr.st.sub:yr.en.sub], sd=K.dat$Ksmooth.sd[yr.st.sub:yr.en.sub]) # this iteration's realised K series
   
   ## reset popmat to original values
