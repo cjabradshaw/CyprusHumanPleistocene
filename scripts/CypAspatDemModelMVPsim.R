@@ -369,18 +369,18 @@ plot(x,l.x.nta,type="l")
 
 ## survival calculation (S at age X)
 init.pop <- 10000
-lx <- round(init.pop*l.x,0)
+lx <- round(init.pop*l.x,0) # number of persons surviving to exact age x
 len.lx <- length(lx)
-dx <- lx[1:(len.lx-1)]-lx[2:len.lx]
+dx <- lx[1:(len.lx-1)]-lx[2:len.lx] # number of deaths between exact ages x and x+1
 dx
-qx <- dx/lx[1:(length(lx)-1)]
+qx <- dx/lx[1:(length(lx)-1)] # probability that a person exact age x will die within one year.
 qx
-Sx <- 1 - qx
+Sx <- 1 - qx # annual survival probability between year x and x+1
 Sx
 sx <- lx[2:len.lx]/lx[1:(len.lx-1)]
 mx <- 1 - sx
-Lx <- (lx[1:(len.lx-1)] + lx[2:len.lx])/2
-ex <- rev(cumsum(rev(Lx)))/lx[-len.lx]
+Lx <- (lx[1:(len.lx-1)] + lx[2:len.lx])/2 # number of person-years lived between exact ages x and x+1
+ex <- rev(cumsum(rev(Lx)))/lx[-len.lx] # average number of years of life remaining at exact age x
 ex
 ex.avg <- ex + x[-len.lx]
 ex.avg
