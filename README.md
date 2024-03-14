@@ -34,8 +34,6 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 
 ### Source functions
 - <code>matrixOperators.r</code>: functions for manipulating matrices for population projections
-- <code>qualityRating.R</code>: functions for estimating quality (reliability) of age estimates
-- <code>EndRating.R</code>: functions for estimating quality (reliability) of age estimates
 
 ## Data
 ### Climate hindcasts
