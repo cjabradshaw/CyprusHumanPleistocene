@@ -67,11 +67,7 @@ solow.fct <- function(xx=xx1,yy=yy1,Lon=Lon,Lat=Lat,Age=Age,SdAge=SdAge,nbcoeur=
       pond   <- pas*distan[i,]/max(distan)
       pond0 <- exp(-pond*pond)
       pond0[pond*pond>300] <-0
-#      uu <- nlm(lmv.fct,max(yobs)/10000,yobs=yobs,sdobs=sdobs,pond=pond0,
-#         stepmax=0.5,iterlim=1000)
-#      #print(c(i,uu$est))
-#      vv <- nlm(lmv.fct,uu$est,yobs=yobs,sdobs=sdobs,pond=pond0,iterlim=1000)
-#      #print(c('done', i))
+
    vv <- optimize(lmv.fct,c(0,2*max(yobs)/10000),yobs=yobs,
           sdobs=sdobs,pond=pond0)
    vv$est <- vv$min	
@@ -128,9 +124,7 @@ solow.fct <- function(xx=xx1,yy=yy1,Lon=Lon,Lat=Lat,Age=Age,SdAge=SdAge,nbcoeur=
   result$iv <- iv
   result$voir <- voir
   return(result)
-}             ## fin solow.fct
-
-
+}             ## end solow.fct
 
 sousgrille.fct <- function(nx,nbcoeur=nbcoeur)
  {
@@ -139,68 +133,6 @@ sousgrille.fct <- function(nx,nbcoeur=nbcoeur)
   xx1 <- -180 + xx1*360
   yy1 <-  -59 +yy1*(74+59)
   
-  #datxy<-data.frame(xx1,yy1)
-  #idxy<-which((datxy$xx1 > 28) & (datxy$xx1 < 40) & (datxy$yy1 > 30) & (datxy$yy1 < 40)) 
-  #xx1 <- xx1[idxy]
-  #yy1 <- yy1[idxy]
-  
-  ## remove the point that fall into the sea, but it also remove the small islands
-  ##jj <- map("world",fill=T,plot=F)
-  ##selmap <- map.where(jj,xx1,yy1) 
-  ##xx1 <- xx1[!is.na(selmap)]
-  ##yy1 <- yy1[!is.na(selmap)]
-  
-  #cl <- makeCluster(nbcoeur,outfile="")
-  #registerDoParallel(cl)
-
-  ## chercher a eliminer les points tres proches
-  #dd <- matrix(0,length(xx1),length(xx1))
-  #dd <- foreach(i = 1:length(xx1),.combine='rbind',.packages='Imap') %dopar%  {
-   #ifor <- NULL
-   #for(j in 1:length(xx1))  {
-    #ifor <- c(ifor, gdist(xx1[i],yy1[i],xx1[j],yy1[j],units="km"))
-   #}
-   #ifor
-   #}
-  #dd[is.na(dd)]<- max(dd,na.rm=T)
-  #diag(dd) <- max(dd)
-  #dm <- apply(dd,1,min)
-  #dm[dm < dmmax] <- dmmax
-  #dd[dd > dmmax] <- dmmax+10
-
-
-  #ichang <- 1
-  #while(ichang==1)
-   #{
-    #iu <- foreach (i = 1:length(unique(yy1)),.combine='c') %dopar% {
-       #max(apply(dd[yy1 !=unique(yy1)[i],],2,min)/dm)
-        #}
-   #ichang <- 0
-   #if(min(iu) <= 1.00000001) {
-    #i1 <- order(iu)[1]
-    #dd <- dd[yy1 != unique(yy1)[i1],]
-    #xx1 <- xx1[yy1 != unique(yy1)[i1]]
-    #yy1 <- yy1[yy1 != unique(yy1)[i1]]
-    #ichang <- 1
-    #}
-    #}
-
-  #ichang <- 1
-  #while(ichang==1)
-   #{
-    #iu <- foreach (i = 1:length(xx1),.combine='c') %dopar% {
-      #max(apply(dd[-i,],2,min)/dm)
-      #} 
-     #ichang <- 0
-    #if(min(iu) <= 1.0000001) {
-      #i1 <- order(iu)[1]
-      #xx1 <- xx1[-i1]
-      #yy1 <- yy1[-i1]
-      #dd <- dd[-i1,]
-      #ichang <- 1
-    #}
-  #}
-#stopCluster(cl)
 return(list(xx1=xx1,yy1=yy1))
 }
 
