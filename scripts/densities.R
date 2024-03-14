@@ -1,4 +1,4 @@
-## Estimated densities of hunter-gatherer Homo sapiens in the Pleistocene 
+## Estimated densities of Homo sapiens hunter-gatherer in the Pleistocene 
 ## of Europe and the Near East
 
 ## resamples the available densities to estimate boostrapped means and confidence bounds
@@ -7,9 +7,7 @@
 library(boot)
 
 # import data
-setwd("~/Documents/Papers/Palaeo/Cyprus/data/densities")
-dat <- read.table("densities.csv", header=T, sep=",")
-dat
+dat <- read.table("~/data/densities.csv", header=T, sep=",")
 
 # include only densities estimated for the Mediterranean & Levant/Near East
 #dat <- dat[which(dat$region != ""), ]
