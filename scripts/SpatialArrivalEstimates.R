@@ -128,12 +128,12 @@ solow.fct <- function(xx=xx1,yy=yy1,Lon=Lon,Lat=Lat,Age=Age,SdAge=SdAge,nbcoeur=
 
 sousgrille.fct <- function(nx,nbcoeur=nbcoeur)
  {
-  xx1 <- rep(1:nx,nx)/(nx+1)
+  xx1 <- rep(1:nx, nx)/(nx+1)
   yy1 <- sort(xx1)
   xx1 <- -180 + xx1*360
   yy1 <-  -59 +yy1*(74+59)
   
-return(list(xx1=xx1,yy1=yy1))
+return(list(xx1=xx1, yy1=yy1))
 }
 
 
@@ -155,17 +155,17 @@ sg <- sousgrille.fct(nx,nbcoeur=nbcoeur)
 xx1 <- sg$xx1
 yy1 <- sg$yy1
 
-datxy<-data.frame(xx1,yy1)
-idxy<-which((datxy$xx1 >= min(Lon)-2) & (datxy$xx1 <= max(Lon)+1) & (datxy$yy1 >= min(Lat)-1) & (datxy$yy1 <= max(Lat)+2)) 
+datxy <- data.frame(xx1,yy1)
+idxy <- which((datxy$xx1 >= min(Lon)-2) & (datxy$xx1 <= max(Lon)+1) & (datxy$yy1 >= min(Lat)-1) & (datxy$yy1 <= max(Lat)+2)) 
 xx1 <- xx1[idxy]
 yy1 <- yy1[idxy]
 
-est_solow <- solow.fct(xx=xx1,yy=yy1,Lon=Lon,Lat=Lat,Age=Age,SdAge=SdAge,nbcoeur=nbcoeur)
+est_solow <- solow.fct(xx=xx1, yy=yy1, Lon=Lon, Lat=Lat, Age=Age, SdAge=SdAge, nbcoeur=nbcoeur)
 
 ## save et finding the minimum
-res <- as.data.frame(list(Lon=xx1,Lat=yy1,estim=est_solow$Test+minAge,biais=est_solow$biais,sd=est_solow$sd))
+res <- as.data.frame(list(Lon=xx1, Lat=yy1, estim=est_solow$Test + minAge, biais=est_solow$biais, sd=est_solow$sd))
 
 # write output
-write.table(res,"Estimates_Cyprus(800pts)_v2.csv",sep=";")
+write.table(res, "Estimates_Cyprus(800pts)_v2.csv",sep=";")
 
 
