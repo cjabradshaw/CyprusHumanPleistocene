@@ -25,6 +25,7 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 
 ### Chronology
 - <code>calibdate.R</code>: calibrate oldest human archaeological evidence for Cyprus, and use Signor-Lipps correction to estimate window of first entry
+- <code>Step-by-Step(CRIWM).R</code>: detailed, step-by-step guide and code to using CRIWM if installing package from Github problematic
 
 ### Demography
 - <code>CypAspatDemModel.R</code>: stochastic, age-structured human demographic projection model
