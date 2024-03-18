@@ -33,7 +33,6 @@ library(Rextinct)
 url <- "https://raw.githubusercontent.com/FredSaltre/CyprusHumanPleistocene/main/data/archdates/cyprusages.csv"
 
 # Specify the full path including the filename where you want to save the file
-#dest_file <- "/Users/fredsaltre/Desktop/GlobalEcologyLab/Corey/Cyprus/ArrivalEstimate/NonSpatial_Estimates(CRIWM)/cyprusages.csv"
 dest_file <- " xxxxxx/xxxxxx/xxx/cyprusages.csv" #user to add a directory to save the file the end of the parth MUST be /cyprusages.csv
 
 # Download the file
@@ -64,7 +63,6 @@ write.table(mat, file = "Cyprus_TimeSeries.txt", row.names = FALSE, col.names = 
 # biased = F : return the unbiased estimates (independant of alpha parameter)
 # radiocarbon = "all" :  assumes that all records in the time series are non-calibrated-radiocarbon dated observations.
 # cal_curve = "intcal20" : uses intcal20 calibration curve for calibrating non-calibrated radiocarbon dates
-
 
 out<-criwm(chrono_data = "Cyprus_TimeSeries.txt", signor_lipps = "arr", biased = F, radiocarbon = "all", cal_curve = "intcal20")
 
