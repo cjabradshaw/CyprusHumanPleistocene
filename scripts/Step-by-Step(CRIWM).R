@@ -10,7 +10,7 @@
 # description:
 #*************
 #
-# we accessed the 10 oldest archaeological sites in Cyprus and their oldest dated artefacts (and their standard deviations) from the Near East Radiocarbon Dates (NERD) database 
+# We accessed the 10 oldest archaeological sites in Cyprus and their oldest dated artefacts (and their standard deviations) from the Near East Radiocarbon Dates (NERD) database 
 # The only site we did not include was Vretsia Roudias because there are no available radiocarbon dates from this site
 # however, there are optically stimulated luminescence dates available for Vretsia Roudias, the oldest of which is 12.8 ± 1.6 ka 
 # To these 10 radiocarbon dates (see Results), we applied the Rextinct package in R first to calibrate the dates from radiocarbon years to years before present based on the IntCal20 Northern Hemisphere calibration curve  
