@@ -39,7 +39,7 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 - <code>densities.R</code>: bootstrapped estimates of human densities across Europe/Near East during the Late Pleistocene
 
 ### Spatial arrival
-- <code>SpatialArrivalEswtimates.R</code>: spatial de-biaising functions to estimate pattern of initial arrival from distribution of archaeological dates across sites
+- <code>SpatialArrivalEstimates.R</code>: spatial de-biaising functions to estimate pattern of initial arrival from distribution of archaeological dates across sites
 
 ### Source functions
 - <code>matrixOperators.r</code>: functions for manipulating matrices for population projections
