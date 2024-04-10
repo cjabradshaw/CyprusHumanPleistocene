@@ -12,7 +12,7 @@ Part of the <a href="https://www.ucy.ac.cy/migrate/">MIGRATE</a> (<strong>M</str
 Project <a href="https://www.ucy.ac.cy/migrate/">MIGRATE</a> seeks to offer novel insights into population dynamics and range shifts that resulted in dispersals from the Eastern Mediterranean mainland to the island of <a href="https://www.google.com/maps/place/Cyprus/@35.1670135,32.765821,9z/">Cyprus</a> at a critical period (Late Pleistocene, 45-12 ka) through stochastic spatial modelling. This advanced modelling will  enhance our understanding of timing, and climatic and social factors important in the initial colonisation of Cyprus. The proposed project aims to establish new research domains in the field of Cypriot archaeology extending traditional chronological frontiers beyond the Holocene (current Warm Period), encompassing innovative and interdisciplinary methodologies at the forefront of archaeological research.
 
 ## Manuscript
-Bradshaw, CJA, C Reepmeyer, F Saltré, A Agapiou, V Kassinadiou, S Demesticha, Z Zomeni, M Polidorou, T Moutsiou. 2024. Demographic models predict end-Pleistocene arrival and rapid expansion of pre-agropastoralist humans in Cyprus. <strong><em>Proceedings of the National Academy of Sciences of the USA</em></strong> in press
+Bradshaw, CJA, C Reepmeyer, F Saltré, A Agapiou, V Kassinadiou, S Demesticha, Z Zomeni, M Polidorou, T Moutsiou. 2024. Demographic models predict end-Pleistocene arrival and rapid expansion of pre-agropastoralist humans in Cyprus. <strong><em>Proceedings of the National Academy of Sciences of the USA</em></strong> in press<br>
 <br>
 and (out-of-date) pre-print:<br>
 <br>
