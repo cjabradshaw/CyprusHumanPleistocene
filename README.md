@@ -64,7 +64,7 @@ R code by Corey Bradshaw (<a href="http://github.com/cjabradshaw">@cjabradshaw</
 - <em>world2013lifetable.csv</em>: human demographic data for age-structure determination (see <a href="http://doi.org/10.1038/s41559-019-0902-6">Bradshaw et al. 2019</a>)
 - <em>densities.csv</em>: estimates of human densities standardised to people km<sup>-2</sup> across Europe/Near East during the Late Pleistocene
 
-## Other MIGRATE papers
+## Other <a href="https://www.ucy.ac.cy/migrate/">MIGRATE</a> papers
 - Bradshaw, CJA, F Saltré, SA Crabtree, C Reepmeyer, T Moutsiou. <a href="http://doi.org/10.1098/rspb.2024.0967">Small populations of palaeolithic humans in Cyprus hunted endemic megafauna to extinction</a>. <em>Proceedings of the Royal Society B</em> 291: 20240967. doi:10.1098/rspb.2024.0967 (see related <a href="https://github.com/cjabradshaw/CyprusHippoElephant">Github repository</a>)
 - Moutsiou T. 2021. <a href="http://doi.org/10.1016/j.quaint.2020.09.012">Climate, environment and cognition in the colonisation of the Eastern Mediterranean islands during the Pleistocene</a>. <em>Quaternary International</em> 577:1-14
 - Moutsiou T, C Reepmeyer, V Kassianidou, Z Zomeni, A Agapiou A. 2021. <a href="http://doi.org/10.1371/journal.pone.0258370">Modelling the Pleistocene colonisation of Eastern Mediterranean islandscapes</a>. <em>PLoS One</em> 16:e0258370
